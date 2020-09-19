@@ -12,7 +12,9 @@ public class CategoryModel {
     private int id;
      private String name;
      @OneToMany
+     @JoinColumn
      private List<CategoryModel> subcategory;
+     private CategoryModel parentCategory;
 
     public List<CategoryModel> getSubcategory() {
         return subcategory;

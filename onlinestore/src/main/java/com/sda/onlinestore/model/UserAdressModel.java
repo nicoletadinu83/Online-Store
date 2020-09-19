@@ -14,6 +14,9 @@ public class UserAdressModel {
     private String street;
     private Long zipcode;
 
+    @OneToOne
+    private UserAccountModel userAccountModel;
+
 
     public String getCountry() {
         return country;

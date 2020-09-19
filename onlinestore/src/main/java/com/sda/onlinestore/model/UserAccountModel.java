@@ -12,9 +12,9 @@ public class UserAccountModel {
     private String login;
     private String password;
     private String city;
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL, mappedBy = "userAccountModel")
     private UserAdressModel userAdress;
-    @OneToOne
+    @OneToOne (cascade=CascadeType.ALL, mappedBy = "userAccountModel")
     private UserAdressModel deliveryAdress;
     private String logotype;
     @OneToOne

@@ -5,13 +5,15 @@ import javax.persistence.*;
 @Entity
 @Table
 public class UserAdressModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private String country;
     private String city;
     private String street;
     private Long zipcode;
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+
 
     public String getCountry() {
         return country;

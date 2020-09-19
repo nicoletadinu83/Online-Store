@@ -9,12 +9,32 @@ public class UserAccountModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private  String login;
+    private String login;
     private String password;
     private String city;
-    private UserAdressModel adress;
+    @OneToOne
+    private UserAdressModel userAdress;
+    @OneToOne
+    private UserAdressModel deliveryAdress;
     private String logotype;
-     private  Role usertype;
+    @OneToOne
+    private Role roletype;
+
+    public UserAdressModel getUserAdress() {
+        return userAdress;
+    }
+
+    public void setUserAdress(UserAdressModel userAdress) {
+        this.userAdress = userAdress;
+    }
+
+    public UserAdressModel getDeliveryAdress() {
+        return deliveryAdress;
+    }
+
+    public void setDeliveryAdress(UserAdressModel deliveryAdress) {
+        this.deliveryAdress = deliveryAdress;
+    }
 
     public int getId() {
         return id;
@@ -48,13 +68,6 @@ public class UserAccountModel {
         this.city = city;
     }
 
-    public UserAdressModel getAdress() {
-        return adress;
-    }
-
-    public void setAdress(UserAdressModel adress) {
-        this.adress = adress;
-    }
 
     public String getLogotype() {
         return logotype;
@@ -64,12 +77,11 @@ public class UserAccountModel {
         this.logotype = logotype;
     }
 
-    public Role getUsertype() {
-        return usertype;
+    public Role getRoletype() {
+        return roletype;
     }
 
-    public void setUsertype(Role usertype) {
-        this.usertype = usertype;
+    public void setRoletype(Role roletype) {
+        this.roletype = roletype;
     }
-
 }

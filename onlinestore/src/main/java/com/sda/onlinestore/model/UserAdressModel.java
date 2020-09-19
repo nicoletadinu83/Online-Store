@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class UserAdressModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
     private int id;
 
     private String country;

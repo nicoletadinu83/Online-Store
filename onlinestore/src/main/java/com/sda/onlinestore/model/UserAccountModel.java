@@ -7,18 +7,34 @@ import javax.persistence.*;
 public class UserAccountModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @Column(name = "login")
     private String login;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "city")
     private String city;
-    @OneToOne(cascade=CascadeType.ALL, mappedBy = "userAccountModel")
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @Column(name = "userAdress")
     private UserAdressModel userAdress;
-    @OneToOne (cascade=CascadeType.ALL, mappedBy = "userAccountModel")
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @Column(name = "deliveryAdress")
     private UserAdressModel deliveryAdress;
+
+    @Column(name = "logotype")
     private String logotype;
+
     @OneToOne
-    private Role roletype;
+    @Column(name = "roletype")
+    private RoleModel roletype;
 
     public UserAdressModel getUserAdress() {
         return userAdress;
@@ -77,11 +93,11 @@ public class UserAccountModel {
         this.logotype = logotype;
     }
 
-    public Role getRoletype() {
+    public RoleModel getRoletype() {
         return roletype;
     }
 
-    public void setRoletype(Role roletype) {
+    public void setRoletype(RoleModel roletype) {
         this.roletype = roletype;
     }
 }

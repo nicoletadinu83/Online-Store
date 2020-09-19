@@ -5,16 +5,16 @@ import java.util.List;
 
 
 @Entity
-@Table(name="category")
+@Table(name = "category")
 public class CategoryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-     private String name;
-     @OneToMany
-     @JoinColumn
-     private List<CategoryModel> subcategory;
-     private CategoryModel parentCategory;
+    private String name;
+    private List<CategoryModel> subcategory;
+    @ManyToOne
+    @JoinColumn(name = "id_parentCategory")
+    private CategoryModel parentCategory;
 
     public List<CategoryModel> getSubcategory() {
         return subcategory;
@@ -31,6 +31,7 @@ public class CategoryModel {
     public void setName(String name) {
         this.name = name;
     }
+
     public int getId() {
         return id;
     }

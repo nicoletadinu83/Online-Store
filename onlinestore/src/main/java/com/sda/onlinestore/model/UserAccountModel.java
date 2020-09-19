@@ -20,21 +20,22 @@ public class UserAccountModel {
     @Column(name = "city")
     private String city;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userAccountModel")//mapat dupa membrul clasei UserAdressModel
     @Column(name = "userAdress")
     private UserAdressModel userAdress;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userAccountModel")
     @Column(name = "deliveryAdress")
     private UserAdressModel deliveryAdress;
 
     @Column(name = "logotype")
     private String logotype;
 
-    @OneToOne
+    @OneToOne(cascade =CascadeType.ALL)
     @Column(name = "roletype")
     private RoleModel roletype;
+
 
     public UserAdressModel getUserAdress() {
         return userAdress;

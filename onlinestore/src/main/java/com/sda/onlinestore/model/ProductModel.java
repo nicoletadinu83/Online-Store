@@ -8,13 +8,20 @@ public class ProductModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name="title")
     private String title;
+    @Column(name="thumbnail")
     private String thumbnail; //URL
+    @ManyToOne
+    @JoinColumn(name="id_category")
     private CategoryModel category;
+    @Column(name="price")
     private double price;
+    @Enumerated(EnumType.STRING)
     private ProductType productType;
+    @ManyToOne
+    @JoinColumn(name="id_author")
     private AuthorModel author;
-
 
 
     public long getId() {

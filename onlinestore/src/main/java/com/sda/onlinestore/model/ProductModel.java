@@ -4,16 +4,16 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
-public class Product {
+public class ProductModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
     private String thumbnail; //URL
-    private Category category;
+    private CategoryModel category;
     private double price;
     private ProductType productType;
-    private Author author;
+    private AuthorModel author;
 
 
 
@@ -41,11 +41,11 @@ public class Product {
         this.thumbnail = thumbnail;
     }
 
-    public Category getCategory() {
+    public CategoryModel getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryModel category) {
         this.category = category;
     }
 
@@ -65,11 +65,11 @@ public class Product {
         this.productType = productType;
     }
 
-    public Author getAuthor() {
+    public AuthorModel getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorModel author) {
         this.author = author;
     }
 }

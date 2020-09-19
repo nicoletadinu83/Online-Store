@@ -4,11 +4,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "order_line")
-public class OrderLine {
+public class OrderLineModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Product product;
+    private ProductModel productModel;
     private int quantity;
     private double price;
 
@@ -20,12 +20,12 @@ public class OrderLine {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public ProductModel getProductModel() {
+        return productModel;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductModel(ProductModel productModel) {
+        this.productModel = productModel;
     }
 
     public int getQuantity() {

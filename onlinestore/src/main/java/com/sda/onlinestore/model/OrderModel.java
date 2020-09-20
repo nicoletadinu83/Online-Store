@@ -1,47 +1,44 @@
 package com.sda.onlinestore.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@Entity(name = "Order")
+@Entity
 @Table
 public class OrderModel {
 
-    @Column(name = "userName")
-    @OneToOne
-    @JoinColumn(name = "login")
-    private UserAccountModel userName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(name = "totalCost")
     private double totalCost;
 
-    @Column(name = "deliveryAddress")
-    @OneToOne
-    @JoinColumn(name = "deliveryAdress")
+    @ManyToOne
     private UserAdressModel deliveryAddress;
 
-    @Column(name = "userAddress")
-    @OneToOne
-    @JoinColumn(name = "userAdress")
-    private UserAccountModel userAddress;
+    @ManyToOne
+    private UserAccountModel userAccountModel;
 
     @Column(name = "orderDate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
 
-    private OrderLineModel orderLineModel;
-
-    private UserAccountModel userAccountModel;
+    @OneToMany
+    private List<OrderLineModel> orderLineModel = new ArrayList<>();
 
     @Column(name = "status")
     @Enumerated
     private OrderStatus status;
 
-    public UserAccountModel getUserName() {
-        return userName;
+    public long getId() {
+        return id;
     }
 
-    public void setUserName(UserAccountModel userName) {
-        this.userName = userName;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public double getTotalCost() {
@@ -60,12 +57,12 @@ public class OrderModel {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public UserAccountModel getUserAddress() {
-        return userAddress;
+    public UserAccountModel getUserAccountModel() {
+        return userAccountModel;
     }
 
-    public void setUserAddress(UserAccountModel userAddress) {
-        this.userAddress = userAddress;
+    public void setUserAccountModel(UserAccountModel userAccountModel) {
+        this.userAccountModel = userAccountModel;
     }
 
     public Date getOrderDate() {
@@ -76,20 +73,12 @@ public class OrderModel {
         this.orderDate = orderDate;
     }
 
-    public OrderLineModel getOrderLineModel() {
+    public List<OrderLineModel> getOrderLineModel() {
         return orderLineModel;
     }
 
-    public void setOrderLineModel(OrderLineModel orderLineModel) {
+    public void setOrderLineModel(List<OrderLineModel> orderLineModel) {
         this.orderLineModel = orderLineModel;
-    }
-
-    public UserAccountModel getUserAccountModel() {
-        return userAccountModel;
-    }
-
-    public void setUserAccountModel(UserAccountModel userAccountModel) {
-        this.userAccountModel = userAccountModel;
     }
 
     public OrderStatus getStatus() {

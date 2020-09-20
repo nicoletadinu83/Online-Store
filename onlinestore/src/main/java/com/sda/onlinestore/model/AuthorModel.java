@@ -9,7 +9,7 @@ public class AuthorModel {
     @Id
     @GeneratedValue
     @Column(name = "author_id")
-    private int id;
+    private long id;
 
     @Column(name = "firstName")
     private String firstName;
@@ -17,11 +17,11 @@ public class AuthorModel {
     @Column(name = "lastName")
     private String lastName;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

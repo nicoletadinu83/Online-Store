@@ -8,16 +8,12 @@ public class UserAdressModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
-    private int id;
+    private long id;
 
     private String country;
     private String city;
     private String street;
     private Long zipcode;
-
-    @OneToOne
-    @JoinColumn(name="user_id")
-    private UserAccountModel userAccountModel;
 
 
     public String getCountry() {
@@ -52,11 +48,11 @@ public class UserAdressModel {
         this.zipcode = zipcode;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 }

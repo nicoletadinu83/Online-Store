@@ -2,6 +2,7 @@ package com.sda.onlinestore.dto;
 
 import com.sda.onlinestore.model.OrderLineModel;
 import com.sda.onlinestore.model.OrderStatus;
+import com.sda.onlinestore.model.UserAccountModel;
 import com.sda.onlinestore.model.UserAdressModel;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class OrderDto {
     private long id;
     private double totalCost;
     private UserAdressModel deliveryAddress;
+    private UserAccountModel userAccountModel;
     private Date orderDate;
     private List<OrderLineModel> orderLineModel = new ArrayList<>();
     private OrderStatus status;
@@ -34,6 +36,14 @@ public class OrderDto {
 
     public UserAdressModel getDeliveryAddress() {
         return deliveryAddress;
+    }
+
+    public UserAccountModel getUserAccountModel() {
+        return userAccountModel;
+    }
+
+    public void setUserAccountModel(UserAccountModel userAccountModel) {
+        this.userAccountModel = userAccountModel;
     }
 
     public void setDeliveryAddress(UserAdressModel deliveryAddress) {

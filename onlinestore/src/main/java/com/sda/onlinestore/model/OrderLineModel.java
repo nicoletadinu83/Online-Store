@@ -12,6 +12,9 @@ public class OrderLineModel {
     @OneToOne
     private ProductModel productModel;
 
+    @ManyToOne
+    private OrderModel order;
+
     private int quantity;
 
     private double price;
@@ -19,6 +22,14 @@ public class OrderLineModel {
     //Getters and Setters
     public long getId() {
         return id;
+    }
+
+    public OrderModel getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderModel order) {
+        this.order = order;
     }
 
     public void setId(long id) {

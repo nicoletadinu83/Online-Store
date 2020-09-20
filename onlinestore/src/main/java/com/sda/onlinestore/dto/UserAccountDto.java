@@ -1,15 +1,14 @@
 package com.sda.onlinestore.dto;
 
 import com.sda.onlinestore.model.RoleModel;
-import com.sda.onlinestore.model.UserAdressModel;
 
 public class UserAccountDto {
     private Long id;
     private String login;
     private String password;
     private String city;
-    private UserAdressModel userAdress;
-    private UserAdressModel deliveryAdress;
+    private UserAddressDto userAdress;
+    private UserAddressDto deliveryAdress;
     private String logotype;
     private RoleModel roletype;
 
@@ -45,20 +44,20 @@ public class UserAccountDto {
         this.city = city;
     }
 
-    public UserAdressModel getUserAdress() {
-        return userAdress;
-    }
-
-    public void setUserAdress(UserAdressModel userAdress) {
-        this.userAdress = userAdress;
-    }
-
-    public UserAdressModel getDeliveryAdress() {
+    public UserAddressDto getDeliveryAdress() {
         return deliveryAdress;
     }
 
-    public void setDeliveryAdress(UserAdressModel deliveryAdress) {
+    public void setDeliveryAdress(UserAddressDto deliveryAdress) {
         this.deliveryAdress = deliveryAdress;
+    }
+
+    public UserAddressDto getUserAdress() {
+        return userAdress;
+    }
+
+    public void setUserAdress(UserAddressDto userAdress) {
+        this.userAdress = userAdress;
     }
 
     public String getLogotype() {

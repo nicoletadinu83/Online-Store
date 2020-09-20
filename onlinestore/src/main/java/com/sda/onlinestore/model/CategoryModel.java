@@ -14,7 +14,7 @@ public class CategoryModel {
 
     private String name;
 
-    @OneToMany
+    @OneToMany (mappedBy = "parentCategory")
     private List<CategoryModel> subcategory= new ArrayList<>();
 
     @ManyToOne

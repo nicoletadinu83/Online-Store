@@ -10,8 +10,8 @@ public class CategoryDto {
 
     private long id;
     private String name;
-    private List<CategoryModel> subcategory= new ArrayList<>();
-    private CategoryModel parentCategory;
+    private List<CategoryDto> subcategory= new ArrayList<>();
+    private CategoryDto parentCategory;
 
     public long getId() {
         return id;
@@ -29,19 +29,19 @@ public class CategoryDto {
         this.name = name;
     }
 
-    public List<CategoryModel> getSubcategory() {
+    public List<CategoryDto> getSubcategory() {
         return subcategory;
     }
 
-    public void setSubcategory(List<CategoryModel> subcategory) {
+    public void setSubcategory(List<CategoryDto> subcategory) {
         this.subcategory = subcategory;
     }
 
-    public CategoryModel getParentCategory() {
+    public CategoryDto getParentCategory() {
         return parentCategory;
     }
 
-    public void setParentCategory(CategoryModel parentCategory) {
+    public void setParentCategory(CategoryDto parentCategory) {
         this.parentCategory = parentCategory;
     }
 }

@@ -25,8 +25,22 @@ public class CategoryServiceImpl implements CategoryService {
             CategoryDto categoryDto = new CategoryDto();
             categoryDto.setId(categoryModel.getId());
             categoryDto.setName(categoryModel.getName());
-            categoryDto.setParentCategory(categoryModel.getParentCategory());
-            categoryDto.setSubcategory(categoryModel.getSubcategory());
+
+            CategoryModel parentCategoryModel = categoryModel.getParentCategory();
+            CategoryDto parentCategoryDto = new CategoryDto();
+            parentCategoryDto.setId(parentCategoryModel.getId());
+            parentCategoryDto.setName(parentCategoryModel.getName());
+            categoryDto.setParentCategory(parentCategoryDto);
+
+            List<CategoryModel> subcategoryListModel = categoryModel.getSubcategory();
+            List<CategoryDto> subcategories = new ArrayList<>();
+            for(CategoryModel subcategoryModel : subcategoryListModel) {
+                CategoryDto subcategoryDto = new CategoryDto();
+                subcategoryDto.setId(subcategoryModel.getId());
+                subcategoryDto.setName(subcategoryModel.getName());
+                subcategories.add(subcategoryDto);
+            }
+            categoryDto.setSubcategory(subcategories);
 
             return categoryDto;
         }
@@ -42,8 +56,23 @@ public class CategoryServiceImpl implements CategoryService {
             CategoryDto categoryDto = new CategoryDto();
             categoryDto.setId(categoryModel.getId());
             categoryDto.setName(categoryModel.getName());
-            categoryDto.setParentCategory(categoryModel.getParentCategory());
-            categoryDto.setSubcategory(categoryModel.getSubcategory());
+
+            CategoryModel parentCategoryModel = categoryModel.getParentCategory();
+            CategoryDto parentCategoryDto = new CategoryDto();
+            parentCategoryDto.setId(parentCategoryModel.getId());
+            parentCategoryDto.setName(parentCategoryModel.getName());
+            categoryDto.setParentCategory(parentCategoryDto);
+
+
+            List<CategoryModel> subcategoryListModel = categoryModel.getSubcategory();
+            List<CategoryDto> subcategories = new ArrayList<>();
+            for(CategoryModel subcategoryModel : subcategoryListModel) {
+                CategoryDto subcategoryDto = new CategoryDto();
+                subcategoryDto.setId(subcategoryModel.getId());
+                subcategoryDto.setName(subcategoryModel.getName());
+                subcategories.add(subcategoryDto);
+            }
+            categoryDto.setSubcategory(subcategories);
 
             categoryDtoList.add(categoryDto);
         }
@@ -59,8 +88,6 @@ public class CategoryServiceImpl implements CategoryService {
     public void addCategory(CategoryDto categoryDto) {
         CategoryModel categoryModel = new CategoryModel();
         categoryModel.setName(categoryDto.getName());
-        categoryModel.setParentCategory(categoryDto.getParentCategory());
-        categoryModel.setSubcategory(categoryDto.getSubcategory());
 
         categoryRepository.save(categoryModel);
     }
@@ -71,8 +98,6 @@ public class CategoryServiceImpl implements CategoryService {
         if (foundCategory.isPresent()) {
             CategoryModel categoryModel = foundCategory.get();
             categoryModel.setName(categoryDto.getName());
-            categoryModel.setParentCategory(categoryDto.getParentCategory());
-            categoryModel.setSubcategory(categoryDto.getSubcategory());
 
             categoryRepository.save(categoryModel);
         }

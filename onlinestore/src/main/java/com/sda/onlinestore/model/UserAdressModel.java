@@ -16,6 +16,7 @@ public class UserAdressModel {
     private Long zipcode;
 
     @OneToOne
+    @JoinColumn(name="user_id")
     private UserAccountModel userAccountModel;
 
 

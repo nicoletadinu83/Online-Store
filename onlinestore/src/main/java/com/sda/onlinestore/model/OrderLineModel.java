@@ -1,5 +1,7 @@
 package com.sda.onlinestore.model;
 
+import com.sda.onlinestore.dto.OrderDto;
+
 import javax.persistence.*;
 
 @Entity
@@ -24,7 +26,7 @@ public class OrderLineModel {
         return id;
     }
 
-    public OrderModel getOrder() {
+    public OrderDto getOrder() {
         return order;
     }
 

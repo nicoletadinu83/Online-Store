@@ -1,10 +1,7 @@
 package com.sda.onlinestore.service;
 
-import com.sda.onlinestore.dto.CategoryDto;
 import com.sda.onlinestore.dto.OrderDto;
-import com.sda.onlinestore.model.CategoryModel;
 import com.sda.onlinestore.model.OrderModel;
-import com.sda.onlinestore.repository.CategoryRepository;
 import com.sda.onlinestore.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,12 +25,15 @@ public class OrderServiceImpl implements OrderService {
             OrderDto orderDto = new OrderDto();
 
             orderDto.setId(orderModel.getId());
-            orderDto.setDeliveryAddress(orderModel.getDeliveryAddress());
+
+
+//            orderDto.setDeliveryAddress(orderModel.getDeliveryAddress());
+
             orderDto.setOrderDate(orderModel.getOrderDate());
             orderDto.setOrderLineModel(orderModel.getOrderLineModel());
             orderDto.setStatus(orderModel.getStatus());
             orderDto.setTotalCost(orderModel.getTotalCost());
-            orderDto.setUserAccountModel(orderModel.getUserAccountModel());
+//            orderDto.setUserAccountDto(orderModel.getUserAccountModel());
 
 
             return orderDto;
@@ -49,12 +49,12 @@ public class OrderServiceImpl implements OrderService {
         for (OrderModel orderModel : orderModels) {
             OrderDto orderDto = new OrderDto();
             orderDto.setId(orderModel.getId());
-            orderDto.setDeliveryAddress(orderModel.getDeliveryAddress());
+//            orderDto.setDeliveryAddress(orderModel.getDeliveryAddress());
             orderDto.setOrderDate(orderModel.getOrderDate());
             orderDto.setOrderLineModel(orderModel.getOrderLineModel());
             orderDto.setStatus(orderModel.getStatus());
             orderDto.setTotalCost(orderModel.getTotalCost());
-            orderDto.setUserAccountModel(orderModel.getUserAccountModel());
+//            orderDto.setUserAccountDto(orderModel.getUserAccountModel());
 
             orderDtoList.add(orderDto);
         }
@@ -69,12 +69,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void addOrder(OrderDto orderDto) {
         OrderModel orderModel = new OrderModel();
-        orderModel.setDeliveryAddress(orderDto.getDeliveryAddress());
+//        orderModel.setDeliveryAddress(orderDto.getDeliveryAddress());
         orderModel.setOrderDate(orderDto.getOrderDate());
         orderModel.setOrderLineModel(orderDto.getOrderLineModel());
         orderModel.setStatus(orderDto.getStatus());
         orderModel.setTotalCost(orderDto.getTotalCost());
-        orderModel.setUserAccountModel(orderDto.getUserAccountModel());
+//        orderModel.setUserAccountModel(orderDto.getUserAccountModel());
 
         orderRepository.save(orderModel);
     }
@@ -84,12 +84,12 @@ public class OrderServiceImpl implements OrderService {
         Optional<OrderModel> foundOrder = orderRepository.findById(orderDto.getId());
         if (foundOrder.isPresent()) {
             OrderModel orderModel = foundOrder.get();
-            orderModel.setDeliveryAddress(orderDto.getDeliveryAddress());
+//            orderModel.setDeliveryAddress(orderDto.getDeliveryAddress());
             orderModel.setOrderDate(orderDto.getOrderDate());
             orderModel.setOrderLineModel(orderDto.getOrderLineModel());
             orderModel.setStatus(orderDto.getStatus());
             orderModel.setTotalCost(orderDto.getTotalCost());
-            orderModel.setUserAccountModel(orderDto.getUserAccountModel());
+//            orderModel.setUserAccountModel(orderDto.getUserAccountModel());
 
             orderRepository.save(orderModel);
         }

@@ -1,9 +1,6 @@
 package com.sda.onlinestore.dto;
 
-import com.sda.onlinestore.model.OrderLineModel;
 import com.sda.onlinestore.model.OrderStatus;
-import com.sda.onlinestore.model.UserAccountModel;
-import com.sda.onlinestore.model.UserAdressModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,10 +9,10 @@ import java.util.List;
 public class OrderDto {
     private long id;
     private double totalCost;
-    private UserAdressModel deliveryAddress;
-    private UserAccountModel userAccountModel;
+    private UserAddressDto deliveryAddress;
+    private UserAccountDto userAccountDto;
     private Date orderDate;
-    private List<OrderLineModel> orderLineModel = new ArrayList<>();
+    private List<OrderLineDto> orderLineDto = new ArrayList<>();
     private OrderStatus status;
 
     public long getId() {
@@ -34,20 +31,20 @@ public class OrderDto {
         this.totalCost = totalCost;
     }
 
-    public UserAdressModel getDeliveryAddress() {
+    public UserAddressDto getDeliveryAddress() {
         return deliveryAddress;
     }
 
-    public UserAccountModel getUserAccountModel() {
-        return userAccountModel;
-    }
-
-    public void setUserAccountModel(UserAccountModel userAccountModel) {
-        this.userAccountModel = userAccountModel;
-    }
-
-    public void setDeliveryAddress(UserAdressModel deliveryAddress) {
+    public void setDeliveryAddress(UserAddressDto deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public UserAccountDto getUserAccountDto() {
+        return userAccountDto;
+    }
+
+    public void setUserAccountDto(UserAccountDto userAccountDto) {
+        this.userAccountDto = userAccountDto;
     }
 
     public Date getOrderDate() {
@@ -58,12 +55,12 @@ public class OrderDto {
         this.orderDate = orderDate;
     }
 
-    public List<OrderLineModel> getOrderLineModel() {
-        return orderLineModel;
+    public List<OrderLineDto> getOrderLineDto() {
+        return orderLineDto;
     }
 
-    public void setOrderLineModel(List<OrderLineModel> orderLineModel) {
-        this.orderLineModel = orderLineModel;
+    public void setOrderLineDto(List<OrderLineDto> orderLineDto) {
+        this.orderLineDto = orderLineDto;
     }
 
     public OrderStatus getStatus() {

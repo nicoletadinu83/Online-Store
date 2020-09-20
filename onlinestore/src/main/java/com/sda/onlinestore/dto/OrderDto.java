@@ -1,36 +1,21 @@
-package com.sda.onlinestore.model;
+package com.sda.onlinestore.dto;
 
-import javax.persistence.*;
+import com.sda.onlinestore.model.OrderLineModel;
+import com.sda.onlinestore.model.OrderStatus;
+import com.sda.onlinestore.model.UserAccountModel;
+import com.sda.onlinestore.model.UserAdressModel;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table
-public class OrderModel {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderDto {
     private long id;
-
-    @Column(name = "totalCost")
     private double totalCost;
-
-    @ManyToOne
     private UserAdressModel deliveryAddress;
-
-    @ManyToOne
     private UserAccountModel userAccountModel;
-
-    @Column(name = "orderDate")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
-
-    @OneToMany(mappedBy = "order")
     private List<OrderLineModel> orderLineModel = new ArrayList<>();
-
-    @Column(name = "status")
-    @Enumerated
     private OrderStatus status;
 
     public long getId() {
@@ -53,16 +38,16 @@ public class OrderModel {
         return deliveryAddress;
     }
 
-    public void setDeliveryAddress(UserAdressModel deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
-    }
-
     public UserAccountModel getUserAccountModel() {
         return userAccountModel;
     }
 
     public void setUserAccountModel(UserAccountModel userAccountModel) {
         this.userAccountModel = userAccountModel;
+    }
+
+    public void setDeliveryAddress(UserAdressModel deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public Date getOrderDate() {

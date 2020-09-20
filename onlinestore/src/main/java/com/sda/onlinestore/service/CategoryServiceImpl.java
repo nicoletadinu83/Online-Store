@@ -51,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
 
@@ -67,9 +67,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateProduct(CategoryDto categoryDto) {
-        Optional<CategoryModel> foundProduct = categoryRepository.findById(categoryDto.getId());
-        if (foundProduct.isPresent()) {
-            CategoryModel categoryModel = foundProduct.get();
+        Optional<CategoryModel> foundCategory = categoryRepository.findById(categoryDto.getId());
+        if (foundCategory.isPresent()) {
+            CategoryModel categoryModel = foundCategory.get();
             categoryModel.setName(categoryDto.getName());
             categoryModel.setParentCategory(categoryDto.getParentCategory());
             categoryModel.setSubcategory(categoryDto.getSubcategory());

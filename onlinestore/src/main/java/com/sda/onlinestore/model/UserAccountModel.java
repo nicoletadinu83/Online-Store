@@ -8,10 +8,8 @@ public class UserAccountModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @Column(name = "login")
     private String login;
 
     @Column(name = "password")
@@ -20,22 +18,28 @@ public class UserAccountModel {
     @Column(name = "city")
     private String city;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userAccountModel")//mapat dupa membrul clasei UserAdressModel
-    @Column(name = "userAdress")
+    @OneToOne(cascade = CascadeType.ALL)
     private UserAdressModel userAdress;
 
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userAccountModel")
-    @Column(name = "deliveryAdress")
+    @OneToOne(cascade = CascadeType.ALL)
     private UserAdressModel deliveryAdress;
 
     @Column(name = "logotype")
     private String logotype;
 
-    @OneToOne(cascade =CascadeType.ALL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "roletype")
     private RoleModel roletype;
 
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public UserAdressModel getUserAdress() {
         return userAdress;
@@ -53,13 +57,6 @@ public class UserAccountModel {
         this.deliveryAdress = deliveryAdress;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getLogin() {
         return login;

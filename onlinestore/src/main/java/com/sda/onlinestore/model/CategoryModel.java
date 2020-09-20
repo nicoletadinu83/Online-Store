@@ -1,6 +1,7 @@
 package com.sda.onlinestore.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -9,11 +10,14 @@ import java.util.List;
 public class CategoryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
+
     private String name;
-    private List<CategoryModel> subcategory;
+
+    @OneToMany
+    private List<CategoryModel> subcategory= new ArrayList<>();
+
     @ManyToOne
-    @JoinColumn(name = "id_parentCategory")
     private CategoryModel parentCategory;
 
     public List<CategoryModel> getSubcategory() {
@@ -32,11 +36,19 @@ public class CategoryModel {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public CategoryModel getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setParentCategory(CategoryModel parentCategory) {
+        this.parentCategory = parentCategory;
     }
 }

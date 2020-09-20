@@ -8,10 +8,15 @@ public class OrderLineModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @OneToOne
     private ProductModel productModel;
+
     private int quantity;
+
     private double price;
 
+    //Getters and Setters
     public long getId() {
         return id;
     }

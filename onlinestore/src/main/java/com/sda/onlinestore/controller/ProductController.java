@@ -30,7 +30,7 @@ public class ProductController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("addCategory")
+    @PostMapping("addProduct")
     public ResponseEntity addProduct(@RequestBody ProductDto productDto) {
         productService.addProduct(productDto);
         return new ResponseEntity(HttpStatus.OK);
@@ -43,7 +43,7 @@ public class ProductController {
 
     }
 
-    @PutMapping("editCategory")
+    @PutMapping("editProduct")
     public ResponseEntity editProduct(@RequestBody ProductDto productDto) {
         productService.updateProduct(productDto);
         return new ResponseEntity(HttpStatus.OK);

@@ -5,9 +5,13 @@ import java.util.List;
 
 public class CartModel {
 
-    private List<ProductModel> productList = new ArrayList<>();
+    private List<OrderLineModel> orderLineModelList = new ArrayList<>();
 
-    public void setProductList(List<ProductModel> productList) {
-        this.productList = productList;
+    public List<OrderLineModel> getOrderLineModelList() {
+        return orderLineModelList;
+    }
+
+    public void setOrderLineModelList(List<OrderLineModel> orderLineModelList) {
+        this.orderLineModelList = orderLineModelList;
     }
 }

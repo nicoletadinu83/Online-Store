@@ -2,7 +2,6 @@ package com.sda.onlinestore.dto;
 
 import com.sda.onlinestore.model.CategoryModel;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,7 @@ public class CategoryDto {
 
     private long id;
     private String name;
-    private List<CategoryDto> subcategory= new ArrayList<>();
+    private List<CategoryDto> subcategory = new ArrayList<>();
     private CategoryDto parentCategory;
 
     public long getId() {
@@ -44,4 +43,6 @@ public class CategoryDto {
     public void setParentCategory(CategoryDto parentCategory) {
         this.parentCategory = parentCategory;
     }
+
 }
+

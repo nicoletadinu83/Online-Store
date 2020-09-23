@@ -1,10 +1,7 @@
 package com.sda.onlinestore.dto;
 
-import com.sda.onlinestore.model.AuthorModel;
 import com.sda.onlinestore.model.CategoryModel;
 import com.sda.onlinestore.model.ProductType;
-
-import javax.persistence.*;
 
 public class ProductDto {
 
@@ -20,7 +17,7 @@ public class ProductDto {
 
     private ProductType productType;
 
-    private AuthorModel author;
+    private AuthorDto author;
 
 
     public long getId() {
@@ -71,11 +68,11 @@ public class ProductDto {
         this.productType = productType;
     }
 
-    public AuthorModel getAuthor() {
+    public AuthorDto getAuthor() {
         return author;
     }
 
-    public void setAuthor(AuthorModel author) {
+    public void setAuthor(AuthorDto author) {
         this.author = author;
     }
 }

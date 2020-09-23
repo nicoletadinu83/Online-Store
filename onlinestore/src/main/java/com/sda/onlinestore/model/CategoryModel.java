@@ -20,12 +20,12 @@ public class CategoryModel {
     @ManyToOne
     private CategoryModel parentCategory;
 
-    public List<CategoryModel> getSubcategory() {
-        return subcategory;
+    public long getId() {
+        return id;
     }
 
-    public void setSubcategory(List<CategoryModel> subcategory) {
-        this.subcategory = subcategory;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -36,12 +36,12 @@ public class CategoryModel {
         this.name = name;
     }
 
-    public long getId() {
-        return id;
+    public List<CategoryModel> getSubcategory() {
+        return subcategory;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setSubcategory(List<CategoryModel> subcategory) {
+        this.subcategory = subcategory;
     }
 
     public CategoryModel getParentCategory() {

@@ -22,11 +22,12 @@ public class OrderLineModel {
     private double price;
 
     //Getters and Setters
+
     public long getId() {
         return id;
     }
 
-    public OrderDto getOrder() {
+    public OrderModel getOrder() {
         return order;
     }
 

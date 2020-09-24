@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
             for (OrderLineModel orderLineModel : orderLineModelList) {
                 OrderLineDto orderLineDto = new OrderLineDto();
                 orderLineDto.setId(orderLineModel.getId());
-                orderLineDto.setPrice(orderLineModel.getPrice());
+                orderLineDto.setPrice(orderLineModel.getProductPrice());
                 orderLineDto.setQuantity(orderLineModel.getQuantity());
 
                 //un ProductModel are ca membru un AuthorModel un CategoryModel
@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
                     subcategoryDtoList.add(categoryDto1);
                 }
                 categoryDto.setSubcategory(subcategoryDtoList);
-                // productDto.setCategory(categoryDto);
+//                 productDto.setCategory(categoryDto);
                 orderLineDto.setProductDto(productDto);
 
                 orderLineDtoList.add(orderLineDto);
@@ -161,11 +161,54 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void addOrder(OrderDto orderDto) {
         OrderModel orderModel = new OrderModel();
-//        orderModel.setDeliveryAddress(orderDto.getDeliveryAddress());
-        orderModel.setOrderDate(orderDto.getOrderDate());
-        // orderModel.setOrderLineModel(orderDto.getOrderLineModel());
-        orderModel.setStatus(orderDto.getStatus());
         orderModel.setTotalCost(orderDto.getTotalCost());
+
+        UserAdressModel deliveryAdress = new UserAdressModel();
+        UserAddressDto deliveryAddressDto = orderDto.getDeliveryAddress();
+        deliveryAdress.setCountry(deliveryAddressDto.getCountry());
+        deliveryAdress.setCity(deliveryAddressDto.getCity());
+        deliveryAdress.setStreet(deliveryAddressDto.getStreet());
+        deliveryAdress.setZipcode(deliveryAddressDto.getZipcode());
+        orderModel.setDeliveryAddress(deliveryAdress);
+
+        UserAdressModel userAdress = new UserAdressModel();
+        UserAddressDto userAddressDto = orderDto.getUserAddress();
+        deliveryAdress.setCountry(deliveryAddressDto.getCountry());
+        deliveryAdress.setCity(deliveryAddressDto.getCity());
+        deliveryAdress.setStreet(deliveryAddressDto.getStreet());
+        deliveryAdress.setZipcode(deliveryAddressDto.getZipcode());
+        orderModel.setDeliveryAddress(deliveryAdress);
+
+        orderModel.setOrderDate(orderDto.getOrderDate());
+
+        List<OrderLineDto> orderLineDtoList = orderDto.getOrderLineDto();
+        List<OrderLineModel> orderLineModelList = new ArrayList<>();
+        OrderLineModel orderLineModel = new OrderLineModel();
+        for (OrderLineDto orderLineDto: orderLineDtoList){
+            ProductModel productModel = new ProductModel();
+            ProductDto productDto = orderLineDto.getProductDto();
+            productModel.setTitle(productDto.getTitle());
+            productModel.setThumbnail(productDto.getThumbnail());
+            productModel.setCategory(productDto.getCategory());
+            productModel.setPrice(productDto.getPrice());
+            productModel.setProductType(productDto.getProductType());
+            AuthorModel authorModel = new AuthorModel();
+            AuthorDto authorDto = productDto.getAuthor();
+            authorModel.setId(authorDto.getId());
+            authorModel.setFirstName(authorDto.getFirstName());
+            authorModel.setLastName(authorDto.getLastName());
+            productModel.setAuthor(authorModel);
+            orderLineModel.setProductModel(productModel);
+
+            orderLineModel.setQuantity(1);
+            orderLineModel.setProductPrice(productModel.getPrice());
+
+            orderLineModelList.add(orderLineModel);
+        }
+
+         orderModel.setOrderLineModel(orderLineModelList);
+
+        orderModel.setStatus(orderDto.getStatus());
 //        orderModel.setUserAccountModel(orderDto.getUserAccountModel());
 
         orderRepository.save(orderModel);

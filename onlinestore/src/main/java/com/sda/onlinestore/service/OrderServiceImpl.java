@@ -15,6 +15,10 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    UserAccountModel userAccountModel = new UserAccountModel();
+    UserAdressModel userAddress = new UserAdressModel();
+    UserAdressModel deliveryAddress = new UserAdressModel();
+
     @Override
     public OrderDto getOrder(Long id) {
         Optional<OrderModel> orderModelOptional = orderRepository.findById(id);
@@ -171,13 +175,13 @@ public class OrderServiceImpl implements OrderService {
         deliveryAdress.setZipcode(deliveryAddressDto.getZipcode());
         orderModel.setDeliveryAddress(deliveryAdress);
 
-        UserAdressModel userAdress = new UserAdressModel();
+
         UserAddressDto userAddressDto = orderDto.getUserAddress();
-        deliveryAdress.setCountry(deliveryAddressDto.getCountry());
-        deliveryAdress.setCity(deliveryAddressDto.getCity());
-        deliveryAdress.setStreet(deliveryAddressDto.getStreet());
-        deliveryAdress.setZipcode(deliveryAddressDto.getZipcode());
-        orderModel.setDeliveryAddress(deliveryAdress);
+        userAddress.setCountry(userAddressDto.getCountry());
+        userAddress.setCity(userAddressDto.getCity());
+        userAddress.setStreet(userAddressDto.getStreet());
+        userAddress.setZipcode(userAddressDto.getZipcode());
+        orderModel.setUserAddress(userAddress);
 
         orderModel.setOrderDate(orderDto.getOrderDate());
 
@@ -209,9 +213,43 @@ public class OrderServiceImpl implements OrderService {
          orderModel.setOrderLineModel(orderLineModelList);
 
         orderModel.setStatus(orderDto.getStatus());
-//        orderModel.setUserAccountModel(orderDto.getUserAccountModel());
+
+        UserAccountDto userAccountDto = orderDto.getUserAccountDto();
+
+        userAccountModel =  userAccountDtoToModel(userAccountDto);
+        orderModel.setUserAccountModel(userAccountModel);
 
         orderRepository.save(orderModel);
+    }
+
+    UserAccountModel userAccountDtoToModel(UserAccountDto userAccountDto){
+        userAccountModel.setId(userAccountDto.getId());
+        userAccountModel.setLogin(userAccountDto.getLogin());
+        userAccountModel.setPassword(userAccountDto.getPassword());
+        userAccountModel.setCity(userAccountDto.getCity());
+            userAddress = userAddressDtoToModel(userAccountDto.getUserAdress());
+            userAccountModel.setUserAdress(userAddress);
+            deliveryAddress = deliveryAddressDtoToModel(userAccountDto.getDeliveryAdress());
+            userAccountModel.setDeliveryAdress(deliveryAddress);
+        userAccountModel.setLogotype(userAccountDto.getLogotype());
+        userAccountModel.setRoletype(userAccountDto.getRoletype());
+        return userAccountModel;
+    }
+
+    UserAdressModel userAddressDtoToModel(UserAddressDto userAddressDto){
+        userAddress.setCountry(userAddressDto.getCountry());
+        userAddress.setCity(userAddressDto.getCity());
+        userAddress.setStreet(userAddressDto.getStreet());
+        userAddress.setZipcode(userAddressDto.getZipcode());
+        return userAddress;
+    }
+
+    UserAdressModel deliveryAddressDtoToModel(UserAddressDto deliveryAddressDto){
+        deliveryAddress.setCountry(deliveryAddressDto.getCountry());
+        deliveryAddress.setCity(deliveryAddressDto.getCity());
+        deliveryAddress.setStreet(deliveryAddressDto.getStreet());
+        deliveryAddress.setZipcode(deliveryAddressDto.getZipcode());
+        return deliveryAddress;
     }
 
     @Override

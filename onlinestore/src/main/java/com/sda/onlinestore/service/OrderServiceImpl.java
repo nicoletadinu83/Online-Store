@@ -24,6 +24,56 @@ public class OrderServiceImpl implements OrderService {
     private ProductRepository productRepository;
 
     @Override
+    public void addOrder(OrderDto orderDto) {
+
+        OrderModel orderModel = orderDtoToModel(orderDto);
+
+        orderRepository.save(orderModel);
+    }
+
+    private OrderModel orderDtoToModel(OrderDto orderDto) {
+        OrderModel orderModel = new OrderModel();
+        orderModel.setTotalCost(orderDto.getTotalCost());
+
+        UserAccountDto userAccountDto = orderDto.getUserAccountDto();
+        Long userId = userAccountDto.getId();
+        Optional<UserAccountModel> userAccountModelOptional = userAccountRepository.findById(userId);
+
+        if (userAccountModelOptional.isPresent()) {
+            UserAccountModel userAccountModel = userAccountModelOptional.get();
+            orderModel.setUserAccountModel(userAccountModel);
+            orderModel.setDeliveryAddress(userAccountModel.getDeliveryAdress());
+            orderModel.setUserAddress(userAccountModel.getUserAdress());
+        }
+
+        orderModel.setOrderDate(orderDto.getOrderDate());
+
+        List<OrderLineDto> orderLineDtoList = orderDto.getOrderLineDto();
+        List<OrderLineModel> orderLineModelList = new ArrayList<>();
+        OrderLineModel orderLineModel = new OrderLineModel();
+        for (OrderLineDto orderLineDto : orderLineDtoList) {
+            ProductDto productDto = orderLineDto.getProductDto();
+            Long id = productDto.getId();
+            Optional<ProductModel> productModelOptional = productRepository.findById(id);
+
+            if (productModelOptional.isPresent()) {
+                ProductModel productModel = productModelOptional.get();
+                orderLineModel.setProductModel(productModel);
+                orderLineModel.setQuantity(1);
+                orderLineModel.setProductPrice(productModel.getPrice());
+            }
+            orderLineModelList.add(orderLineModel);
+        }
+
+        orderModel.setOrderLineModel(orderLineModelList);
+
+        orderModel.setStatus(orderDto.getStatus());
+
+        return orderModel;
+    }
+
+
+    @Override
     public OrderDto getOrder(Long id) {
         Optional<OrderModel> orderModelOptional = orderRepository.findById(id);
 
@@ -259,123 +309,21 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.deleteById(id);
     }
 
-    @Override
-    public void addOrder(OrderDto orderDto) {
 
-        OrderModel orderModel = orderDtoToModel(orderDto);
-
-        orderRepository.save(orderModel);
-    }
 
     @Override
     public void updateOrder(OrderDto orderDto) {
         Optional<OrderModel> foundOrder = orderRepository.findById(orderDto.getId());
         if (foundOrder.isPresent()) {
             OrderModel orderModel = foundOrder.get();
-
-            orderModel.setTotalCost(orderDto.getTotalCost());
-
-            UserAddressDto deliveryAddressDto = orderDto.getDeliveryAddress();
-            UserAdressModel deliveryAddress = new UserAdressModel();
-            deliveryAddress.setCountry(deliveryAddressDto.getCountry());
-            deliveryAddress.setCity(deliveryAddressDto.getCity());
-            deliveryAddress.setStreet(deliveryAddressDto.getStreet());
-            deliveryAddress.setZipcode(deliveryAddressDto.getZipcode());
-            orderModel.setDeliveryAddress(deliveryAddress);
-
-            UserAdressModel userAddress = new UserAdressModel();
-            UserAddressDto userAddressDto = orderDto.getUserAddress();
-            userAddress.setCountry(userAddressDto.getCountry());
-            userAddress.setCity(userAddressDto.getCity());
-            userAddress.setStreet(userAddressDto.getStreet());
-            userAddress.setZipcode(userAddressDto.getZipcode());
-            orderModel.setUserAddress(userAddress);
-
-            orderModel.setOrderDate(orderDto.getOrderDate());
-
-            List<OrderLineDto> orderLineDtoList = orderDto.getOrderLineDto();
-            List<OrderLineModel> orderLineModelList = new ArrayList<>();
-            OrderLineModel orderLineModel = new OrderLineModel();
-            for (OrderLineDto orderLineDto : orderLineDtoList) {
-                ProductModel productModel = new ProductModel();
-                ProductDto productDto = orderLineDto.getProductDto();
-                productModel.setTitle(productDto.getTitle());
-                productModel.setThumbnail(productDto.getThumbnail());
-                CategoryDto categoryDto = productDto.getCategory();
-                CategoryModel categoryModel = new CategoryModel();
-                categoryModel.setId(categoryDto.getId());
-                categoryModel.setName(categoryDto.getName());
-                productModel.setCategory(categoryModel);
-                productModel.setPrice(productDto.getPrice());
-                productModel.setProductType(productDto.getProductType());
-                AuthorModel authorModel = new AuthorModel();
-                AuthorDto authorDto = productDto.getAuthor();
-                authorModel.setId(authorDto.getId());
-                authorModel.setFirstName(authorDto.getFirstName());
-                authorModel.setLastName(authorDto.getLastName());
-                productModel.setAuthor(authorModel);
-                orderLineModel.setProductModel(productModel);
-
-                orderLineModel.setQuantity(1);
-                orderLineModel.setProductPrice(productModel.getPrice());
-
-                orderLineModelList.add(orderLineModel);
-            }
-
-            orderModel.setOrderLineModel(orderLineModelList);
-
-            orderModel.setStatus(orderDto.getStatus());
-
-            UserAccountDto userAccountDto = orderDto.getUserAccountDto();
-
-            UserAccountModel userAccountModel = userAccountDtoToModel(userAccountDto);
-            orderModel.setUserAccountModel(userAccountModel);
-
-            orderRepository.save(orderModel);
+            // Status PENDING - ma pot intoarce in CART pentru modificari
+            // status DELIVERED - finalizat
         }
     }
 
-    private OrderModel orderDtoToModel(OrderDto orderDto) {
-        OrderModel orderModel = new OrderModel();
-        orderModel.setTotalCost(orderDto.getTotalCost());
 
-        UserAccountDto userAccountDto = orderDto.getUserAccountDto();
-        Long userId = userAccountDto.getId();
-        Optional<UserAccountModel> userAccountModelOptional = userAccountRepository.findById(userId);
 
-        if (userAccountModelOptional.isPresent()) {
-            UserAccountModel userAccountModel = userAccountModelOptional.get();
-            orderModel.setUserAccountModel(userAccountModel);
-            orderModel.setDeliveryAddress(userAccountModel.getDeliveryAdress());
-        }
-
-        orderModel.setOrderDate(orderDto.getOrderDate());
-
-        List<OrderLineDto> orderLineDtoList = orderDto.getOrderLineDto();
-        List<OrderLineModel> orderLineModelList = new ArrayList<>();
-        OrderLineModel orderLineModel = new OrderLineModel();
-        for (OrderLineDto orderLineDto : orderLineDtoList) {
-            ProductDto productDto = orderLineDto.getProductDto();
-            Long id = productDto.getId();
-            Optional<ProductModel> productModelOptional = productRepository.findById(id);
-
-            if (productModelOptional.isPresent()) {
-                ProductModel productModel = productModelOptional.get();
-                orderLineModel.setProductModel(productModel);
-                orderLineModel.setQuantity(1);
-                orderLineModel.setProductPrice(productModel.getPrice());
-            }
-            orderLineModelList.add(orderLineModel);
-        }
-
-        orderModel.setOrderLineModel(orderLineModelList);
-
-        orderModel.setStatus(orderDto.getStatus());
-
-        return orderModel;
-    }
-
-    UserAccountModel userAccountDtoToModel(UserAccountDto userAccountDto) {
+    /*UserAccountModel userAccountDtoToModel(UserAccountDto userAccountDto) {
         UserAccountModel userAccountModel = new UserAccountModel();
         userAccountModel.setId(userAccountDto.getId());
         userAccountModel.setLogin(userAccountDto.getLogin());
@@ -406,6 +354,6 @@ public class OrderServiceImpl implements OrderService {
         deliveryAddress.setStreet(deliveryAddressDto.getStreet());
         deliveryAddress.setZipcode(deliveryAddressDto.getZipcode());
         return deliveryAddress;
-    }
+    }*/
 
 }

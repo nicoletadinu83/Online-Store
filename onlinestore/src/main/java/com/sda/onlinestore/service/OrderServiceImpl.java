@@ -15,11 +15,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    OrderModel orderModel = new OrderModel();
-    UserAccountModel userAccountModel = new UserAccountModel();
-    UserAdressModel userAddress = new UserAdressModel();
-    UserAdressModel deliveryAddress = new UserAdressModel();
-
     @Override
     public OrderDto getOrder(Long id) {
         Optional<OrderModel> orderModelOptional = orderRepository.findById(id);
@@ -259,7 +254,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void addOrder(OrderDto orderDto) {
 
-        orderModel = orderDtoToModel(orderDto);
+        OrderModel orderModel = orderDtoToModel(orderDto);
 
         orderRepository.save(orderModel);
     }
@@ -268,17 +263,19 @@ public class OrderServiceImpl implements OrderService {
     public void updateOrder(OrderDto orderDto) {
         Optional<OrderModel> foundOrder = orderRepository.findById(orderDto.getId());
         if (foundOrder.isPresent()) {
-            orderModel = foundOrder.get();
+            OrderModel orderModel = foundOrder.get();
 
             orderModel.setTotalCost(orderDto.getTotalCost());
 
             UserAddressDto deliveryAddressDto = orderDto.getDeliveryAddress();
+            UserAdressModel deliveryAddress = new UserAdressModel();
             deliveryAddress.setCountry(deliveryAddressDto.getCountry());
             deliveryAddress.setCity(deliveryAddressDto.getCity());
             deliveryAddress.setStreet(deliveryAddressDto.getStreet());
             deliveryAddress.setZipcode(deliveryAddressDto.getZipcode());
             orderModel.setDeliveryAddress(deliveryAddress);
 
+            UserAdressModel userAddress = new UserAdressModel();
             UserAddressDto userAddressDto = orderDto.getUserAddress();
             userAddress.setCountry(userAddressDto.getCountry());
             userAddress.setCity(userAddressDto.getCity());
@@ -319,7 +316,7 @@ public class OrderServiceImpl implements OrderService {
 
             UserAccountDto userAccountDto = orderDto.getUserAccountDto();
 
-            userAccountModel = userAccountDtoToModel(userAccountDto);
+            UserAccountModel userAccountModel = userAccountDtoToModel(userAccountDto);
             orderModel.setUserAccountModel(userAccountModel);
 
             orderRepository.save(orderModel);
@@ -327,10 +324,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderModel orderDtoToModel(OrderDto orderDto) {
-
+        OrderModel orderModel = new OrderModel();
         orderModel.setTotalCost(orderDto.getTotalCost());
 
         UserAddressDto deliveryAddressDto = orderDto.getDeliveryAddress();
+        UserAdressModel deliveryAddress = new UserAdressModel();
         deliveryAddress.setCountry(deliveryAddressDto.getCountry());
         deliveryAddress.setCity(deliveryAddressDto.getCity());
         deliveryAddress.setStreet(deliveryAddressDto.getStreet());
@@ -338,6 +336,7 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setDeliveryAddress(deliveryAddress);
 
         UserAddressDto userAddressDto = orderDto.getUserAddress();
+        UserAdressModel userAddress = new UserAdressModel();
         userAddress.setCountry(userAddressDto.getCountry());
         userAddress.setCity(userAddressDto.getCity());
         userAddress.setStreet(userAddressDto.getStreet());
@@ -377,20 +376,21 @@ public class OrderServiceImpl implements OrderService {
 
         UserAccountDto userAccountDto = orderDto.getUserAccountDto();
 
-        userAccountModel = userAccountDtoToModel(userAccountDto);
+        UserAccountModel userAccountModel = userAccountDtoToModel(userAccountDto);
         orderModel.setUserAccountModel(userAccountModel);
 
         return orderModel;
     }
 
     UserAccountModel userAccountDtoToModel(UserAccountDto userAccountDto){
+        UserAccountModel userAccountModel = new UserAccountModel();
         userAccountModel.setId(userAccountDto.getId());
         userAccountModel.setLogin(userAccountDto.getLogin());
         userAccountModel.setPassword(userAccountDto.getPassword());
         userAccountModel.setCity(userAccountDto.getCity());
-        userAddress = userAddressDtoToModel(userAccountDto.getUserAdress());
+        UserAdressModel userAddress = userAddressDtoToModel(userAccountDto.getUserAdress());
         userAccountModel.setUserAdress(userAddress);
-        deliveryAddress = deliveryAddressDtoToModel(userAccountDto.getDeliveryAdress());
+        UserAdressModel deliveryAddress = deliveryAddressDtoToModel(userAccountDto.getDeliveryAdress());
         userAccountModel.setDeliveryAdress(deliveryAddress);
         userAccountModel.setLogotype(userAccountDto.getLogotype());
         userAccountModel.setRoletype(userAccountDto.getRoletype());
@@ -398,6 +398,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     UserAdressModel userAddressDtoToModel(UserAddressDto userAddressDto){
+        UserAdressModel userAddress = new UserAdressModel();
         userAddress.setCountry(userAddressDto.getCountry());
         userAddress.setCity(userAddressDto.getCity());
         userAddress.setStreet(userAddressDto.getStreet());
@@ -406,6 +407,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     UserAdressModel deliveryAddressDtoToModel(UserAddressDto deliveryAddressDto){
+        UserAdressModel deliveryAddress = new UserAdressModel();
         deliveryAddress.setCountry(deliveryAddressDto.getCountry());
         deliveryAddress.setCity(deliveryAddressDto.getCity());
         deliveryAddress.setStreet(deliveryAddressDto.getStreet());

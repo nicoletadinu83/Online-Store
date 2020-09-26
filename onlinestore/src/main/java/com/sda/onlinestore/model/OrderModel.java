@@ -26,7 +26,7 @@ public class OrderModel {
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany//(mappedBy = "order")
     private List<OrderLineModel> orderLineModel = new ArrayList<>();
 
     @Column(name = "status")

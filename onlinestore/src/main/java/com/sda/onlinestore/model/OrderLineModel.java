@@ -14,8 +14,8 @@ public class OrderLineModel {
     @OneToOne
     private ProductModel productModel;
 
-    @ManyToOne
-    private OrderModel order;
+   // @ManyToOne
+    //private OrderModel order;
 
     private int quantity;
 
@@ -27,13 +27,13 @@ public class OrderLineModel {
         return id;
     }
 
-    public OrderModel getOrder() {
-        return order;
-    }
-
-    public void setOrder(OrderModel order) {
-        this.order = order;
-    }
+//    public OrderModel getOrder() {
+//        return order;
+//    }
+//
+//    public void setOrder(OrderModel order) {
+//        this.order = order;
+//    }
 
     public void setId(long id) {
         this.id = id;

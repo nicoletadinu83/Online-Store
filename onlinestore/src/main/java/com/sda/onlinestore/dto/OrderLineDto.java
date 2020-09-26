@@ -3,7 +3,7 @@ package com.sda.onlinestore.dto;
 public class OrderLineDto {
     private long id;
     private ProductDto productDto;
-    private OrderDto order;
+   // private OrderDto order;
     private int quantity;
     private double price;
 
@@ -23,13 +23,13 @@ public class OrderLineDto {
         this.productDto = productDto;
     }
 
-    public OrderDto getOrder() {
-        return order;
-    }
-
-    public void setOrder(OrderDto order) {
-        this.order = order;
-    }
+//  //  public OrderDto getOrder() {
+//        return order;
+//    }
+//
+//    public void setOrder(OrderDto order) {
+//        this.order = order;
+//    }
 
     public int getQuantity() {
         return quantity;

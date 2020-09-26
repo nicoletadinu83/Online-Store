@@ -17,10 +17,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-    ProductModel productModel;
-    ProductDto productDto;
+    // ProductModel productModel;
+    // ProductDto productDto;
 
-    public AuthorDto getAuthorFromService(){
+    public AuthorDto getAuthorFromService(ProductModel productModel){
         AuthorModel authorModel = productModel.getAuthor();
         AuthorDto authorDto = new AuthorDto();
 
@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
         return authorDto;
     }
 
-    public AuthorModel getAuthorModelFromService(){
+    public AuthorModel getAuthorModelFromService(ProductDto productDto){
         AuthorDto authorDto = productDto.getAuthor();
         AuthorModel authorModel = new AuthorModel();
 
@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
             productDto.setThumbnail(productModel.getThumbnail());
             productDto.setTitle(productModel.getTitle());
 
-            productDto.setAuthor(getAuthorFromService());
+            productDto.setAuthor(getAuthorFromService(productModel));
             return productDto;
         }
         return null;
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
             productDto.setThumbnail(productModel.getThumbnail());
             productDto.setPrice(productModel.getPrice());
             productDto.setCategory(productModel.getCategory());
-            productDto.setAuthor(getAuthorFromService());
+            productDto.setAuthor(getAuthorFromService(productModel));
 
             productDtoList.add(productDto);
         }
@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
     public void addProduct(ProductDto productDto) {
         ProductModel productModel = new ProductModel();
         productModel.setId(productDto.getId());
-        productModel.setAuthor(getAuthorModelFromService());
+        productModel.setAuthor(getAuthorModelFromService(productDto));
         productModel.setCategory(productDto.getCategory());
         productModel.setPrice(productDto.getPrice());
         productModel.setProductType(productDto.getProductType());
@@ -108,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
         if (productModelFind.isPresent()) {
             ProductModel productModel = productModelFind.get();
             productModel.setId(productDto.getId());
-            productModel.setAuthor(getAuthorModelFromService());
+            productModel.setAuthor(getAuthorModelFromService(productDto));
             productModel.setCategory(productDto.getCategory());
             productModel.setPrice(productDto.getPrice());
             productModel.setProductType(productDto.getProductType());

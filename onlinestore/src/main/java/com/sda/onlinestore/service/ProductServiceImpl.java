@@ -30,20 +30,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public void setParentCategory(ProductModel productModel) {
-        CategoryModel categoryModel = productModel.getCategory();
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setId(categoryModel.getId());
-        categoryDto.setName(categoryModel.getName());
-
-        CategoryModel parentModelCategory = categoryModel.getParentCategory();
-        CategoryDto parentDtoCategory = new CategoryDto();
-        parentDtoCategory.setId(parentModelCategory.getId());
-        parentDtoCategory.setName(parentModelCategory.getName());
-
-        categoryDto.setParentCategory(parentDtoCategory);
-    }
-
     public AuthorDto getAuthorFromService(ProductModel productModel) {
         AuthorModel authorModel = productModel.getAuthor();
         AuthorDto authorDto = new AuthorDto();
@@ -106,17 +92,27 @@ public class ProductServiceImpl implements ProductService {
             productDto.setThumbnail(productModel.getThumbnail());
             productDto.setPrice(productModel.getPrice());
 
-            CategoryModel categoryModel = productModel.getCategory();
             CategoryDto categoryDto = new CategoryDto();
-            categoryDto.setId(categoryModel.getId());
-            categoryDto.setName(categoryModel.getName());
+            CategoryModel categoryModel=productModel.getCategory();
+            Long idCategory = categoryModel.getId();
+            Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(idCategory);
+            if (categoryModelOptional.isPresent()) {
+                CategoryModel categoryModel1 = categoryModelOptional.get();
 
-            CategoryModel parentModelCategory = categoryModel.getParentCategory();
+                categoryDto.setId(categoryModel1.getId());
+                categoryDto.setName(categoryModel1.getName());
+                productDto.setCategory(categoryDto);
+            }
+
             CategoryDto parentDtoCategory = new CategoryDto();
-            parentDtoCategory.setId(parentModelCategory.getId());
-            parentDtoCategory.setName(parentModelCategory.getName());
-
-            categoryDto.setParentCategory(parentDtoCategory);
+            Long idParentCategory = productModel.getCategory().getId();
+            Optional<CategoryModel> categoryParentModelOptional = categoryRepository.findById(idCategory);
+            if (categoryParentModelOptional.isPresent()) {
+                CategoryModel categoryModel2 = categoryModelOptional.get();
+                parentDtoCategory.setId(categoryModel2.getId());
+                parentDtoCategory.setName(categoryModel2.getName());
+                categoryDto.setParentCategory(parentDtoCategory);
+            }
 
             productDto.setCategory(categoryDto);
             productDto.setAuthor(getAuthorFromService(productModel));
@@ -144,12 +140,11 @@ public class ProductServiceImpl implements ProductService {
             CategoryModel categoryModel = categoryModelOptional.get();
             productModel.setCategory(categoryModel);
         }
-
-
         productModel.setPrice(productDto.getPrice());
         productModel.setProductType(productDto.getProductType());
         productModel.setThumbnail(productDto.getThumbnail());
         productModel.setTitle(productDto.getTitle());
+        productModel.setAuthor(getAuthorModelFromService(productDto));
 
         productRepository.save(productModel);
 
@@ -163,20 +158,13 @@ public class ProductServiceImpl implements ProductService {
             productModel.setId(productDto.getId());
             productModel.setAuthor(getAuthorModelFromService(productDto));
 
-            CategoryDto categoryDto = productDto.getCategory();
-            CategoryModel categoryModel = new CategoryModel();
+            long idCategory = productDto.getCategory().getId();
+            Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(idCategory);
+            if (categoryModelOptional.isPresent()) {
+                CategoryModel categoryModel = categoryModelOptional.get();
+                productModel.setCategory(categoryModel);
+            }
 
-            categoryModel.setId(categoryDto.getId());
-            categoryModel.setName(categoryDto.getName());
-            CategoryDto parentDtoCategory = categoryDto.getParentCategory();
-            CategoryModel parentModelCategory = new CategoryModel();
-
-            parentModelCategory.setId(parentDtoCategory.getId());
-            parentModelCategory.setName(parentDtoCategory.getName());
-
-            categoryModel.setParentCategory(parentModelCategory);
-
-            productModel.setCategory(categoryModel);
             productModel.setPrice(productDto.getPrice());
             productModel.setProductType(productDto.getProductType());
             productModel.setThumbnail(productDto.getThumbnail());

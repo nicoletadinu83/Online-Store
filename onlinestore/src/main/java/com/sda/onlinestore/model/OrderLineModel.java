@@ -1,7 +1,5 @@
 package com.sda.onlinestore.model;
 
-import com.sda.onlinestore.dto.OrderDto;
-
 import javax.persistence.*;
 
 @Entity
@@ -19,7 +17,7 @@ public class OrderLineModel {
 
     private int quantity;
 
-    private double price;
+    private double productPrice;
 
     //Getters and Setters
 
@@ -55,11 +53,11 @@ public class OrderLineModel {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
+    public double getProductPrice() {
+        return productPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setProductPrice(double price) {
+        this.productPrice = price;
     }
 }

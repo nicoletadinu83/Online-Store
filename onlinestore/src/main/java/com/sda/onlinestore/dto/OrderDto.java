@@ -10,6 +10,7 @@ public class OrderDto {
     private long id;
     private double totalCost;
     private UserAddressDto deliveryAddress;
+    private UserAddressDto userAddress;
     private UserAccountDto userAccountDto;
     private Date orderDate;
     private List<OrderLineDto> orderLineDto = new ArrayList<>();
@@ -69,5 +70,13 @@ public class OrderDto {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public UserAddressDto getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddressDto userAddress) {
+        this.userAddress = userAddress;
     }
 }

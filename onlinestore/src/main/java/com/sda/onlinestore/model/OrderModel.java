@@ -20,6 +20,9 @@ public class OrderModel {
     private UserAdressModel deliveryAddress;
 
     @ManyToOne
+    private UserAdressModel userAddress;
+
+    @ManyToOne
     private UserAccountModel userAccountModel;
 
     @Column(name = "orderDate")
@@ -87,5 +90,13 @@ public class OrderModel {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public UserAdressModel getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAdressModel userAddress) {
+        this.userAddress = userAddress;
     }
 }

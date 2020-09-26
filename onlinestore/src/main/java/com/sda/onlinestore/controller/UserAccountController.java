@@ -22,7 +22,7 @@ public class UserAccountController {
         return new ResponseEntity(userAccountDtoList, HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteUserAccouint/{id}")
+    @DeleteMapping("deleteUserAccount/{id}")
     public ResponseEntity deleteUserAccount(@PathVariable("id") Long id) {
         userAccountService.deleteUser(id);
         return new ResponseEntity(HttpStatus.OK);

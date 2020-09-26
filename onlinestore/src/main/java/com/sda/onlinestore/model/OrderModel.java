@@ -29,7 +29,7 @@ public class OrderModel {
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
 
-    @OneToMany//(mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<OrderLineModel> orderLineModel = new ArrayList<>();
 
     @Column(name = "status")

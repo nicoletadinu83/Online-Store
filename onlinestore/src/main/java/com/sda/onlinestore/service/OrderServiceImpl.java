@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
                     subcategoryDtoList.add(categoryDto1);
                 }
                 categoryDto.setSubcategory(subcategoryDtoList);
-//                 productDto.setCategory(categoryDto);
+                productDto.setCategory(categoryDto);
                 orderLineDto.setProductDto(productDto);
 
                 orderLineDtoList.add(orderLineDto);
@@ -197,7 +197,7 @@ public class OrderServiceImpl implements OrderService {
                     subcategoryDtoList.add(categoryDto1);
                 }
                 categoryDto.setSubcategory(subcategoryDtoList);
-//                 productDto.setCategory(categoryDto);
+                productDto.setCategory(categoryDto);
                 orderLineDto.setProductDto(productDto);
 
                 orderLineDtoList.add(orderLineDto);
@@ -293,7 +293,11 @@ public class OrderServiceImpl implements OrderService {
                 ProductDto productDto = orderLineDto.getProductDto();
                 productModel.setTitle(productDto.getTitle());
                 productModel.setThumbnail(productDto.getThumbnail());
-                productModel.setCategory(productDto.getCategory());
+                CategoryDto categoryDto = productDto.getCategory();
+                CategoryModel categoryModel = new CategoryModel();
+                categoryModel.setId(categoryDto.getId());
+                categoryModel.setName(categoryDto.getName());
+                productModel.setCategory(categoryModel);
                 productModel.setPrice(productDto.getPrice());
                 productModel.setProductType(productDto.getProductType());
                 AuthorModel authorModel = new AuthorModel();
@@ -353,7 +357,13 @@ public class OrderServiceImpl implements OrderService {
             ProductDto productDto = orderLineDto.getProductDto();
             productModel.setTitle(productDto.getTitle());
             productModel.setThumbnail(productDto.getThumbnail());
-            productModel.setCategory(productDto.getCategory());
+
+            CategoryDto categoryDto = productDto.getCategory();
+            CategoryModel categoryModel = new CategoryModel();
+            categoryModel.setId(categoryDto.getId());
+            categoryModel.setName(categoryDto.getName());
+
+            productModel.setCategory(categoryModel);
             productModel.setPrice(productDto.getPrice());
             productModel.setProductType(productDto.getProductType());
             AuthorModel authorModel = new AuthorModel();

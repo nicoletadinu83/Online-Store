@@ -11,7 +11,7 @@ public class ProductDto {
 
     private String thumbnail; //URL
 
-    private CategoryModel category;
+    private CategoryDto category;
 
     private double price;
 
@@ -44,11 +44,11 @@ public class ProductDto {
         this.thumbnail = thumbnail;
     }
 
-    public CategoryModel getCategory() {
+    public CategoryDto getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryModel category) {
+    public void setCategory(CategoryDto category) {
         this.category = category;
     }
 

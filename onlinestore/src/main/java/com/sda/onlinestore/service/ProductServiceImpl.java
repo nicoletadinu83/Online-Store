@@ -1,8 +1,10 @@
 package com.sda.onlinestore.service;
 
 import com.sda.onlinestore.dto.AuthorDto;
+import com.sda.onlinestore.dto.CategoryDto;
 import com.sda.onlinestore.dto.ProductDto;
 import com.sda.onlinestore.model.AuthorModel;
+import com.sda.onlinestore.model.CategoryModel;
 import com.sda.onlinestore.model.ProductModel;
 import com.sda.onlinestore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,19 @@ public class ProductServiceImpl implements ProductService {
     // ProductModel productModel;
     // ProductDto productDto;
 
+    public void setParentCategory(ProductModel productModel) {
+        CategoryModel categoryModel = productModel.getCategory();
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(categoryModel.getId());
+        categoryDto.setName(categoryModel.getName());
+
+        CategoryModel parentModelCategory = categoryModel.getParentCategory();
+        CategoryDto parentDtoCategory = new CategoryDto();
+        parentDtoCategory.setId(parentModelCategory.getId());
+        parentDtoCategory.setName(parentModelCategory.getName());
+
+        categoryDto.setParentCategory(parentDtoCategory);
+    }
     public AuthorDto getAuthorFromService(ProductModel productModel){
         AuthorModel authorModel = productModel.getAuthor();
         AuthorDto authorDto = new AuthorDto();
@@ -48,7 +63,12 @@ public class ProductServiceImpl implements ProductService {
             ProductModel productModel = foundProductModel.get();
             ProductDto productDto = new ProductDto();
 
-            productDto.setCategory(productModel.getCategory());
+           // productDto.setCategory(productModel.getCategory());
+            //Every Product has a CAtegory Model which include a parentCategory->Category type
+            CategoryDto categoryDto= new CategoryDto();
+
+          //  categoryDto.setParentCategory(setParentCategory(ProductModel productModel);
+            productDto.setCategory(categoryDto);
             productDto.setId(productModel.getId());
             productDto.setPrice(productModel.getPrice());
             productDto.setProductType(productModel.getProductType());
@@ -73,7 +93,20 @@ public class ProductServiceImpl implements ProductService {
             productDto.setProductType(productModel.getProductType());
             productDto.setThumbnail(productModel.getThumbnail());
             productDto.setPrice(productModel.getPrice());
-            productDto.setCategory(productModel.getCategory());
+
+            CategoryModel categoryModel = productModel.getCategory();
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(categoryModel.getId());
+            categoryDto.setName(categoryModel.getName());
+
+            CategoryModel parentModelCategory = categoryModel.getParentCategory();
+            CategoryDto parentDtoCategory = new CategoryDto();
+            parentDtoCategory.setId(parentModelCategory.getId());
+            parentDtoCategory.setName(parentModelCategory.getName());
+
+            categoryDto.setParentCategory(parentDtoCategory);
+
+            productDto.setCategory(categoryDto);
             productDto.setAuthor(getAuthorFromService(productModel));
 
             productDtoList.add(productDto);
@@ -92,7 +125,20 @@ public class ProductServiceImpl implements ProductService {
         ProductModel productModel = new ProductModel();
         productModel.setId(productDto.getId());
         productModel.setAuthor(getAuthorModelFromService(productDto));
-        productModel.setCategory(productDto.getCategory());
+        CategoryDto categoryDto=productDto.getCategory();
+        CategoryModel categoryModel= new CategoryModel();
+
+        categoryModel.setId(categoryDto.getId());
+        categoryModel.setName(categoryDto.getName());
+        CategoryDto parentDtoCategory= categoryDto.getParentCategory();
+        CategoryModel parentModelCategory= new CategoryModel();
+
+        parentModelCategory.setId(parentDtoCategory.getId());
+        parentModelCategory.setName(parentDtoCategory.getName());
+
+        categoryModel.setParentCategory(parentModelCategory);
+
+        productModel.setCategory(categoryModel);
         productModel.setPrice(productDto.getPrice());
         productModel.setProductType(productDto.getProductType());
         productModel.setThumbnail(productDto.getThumbnail());
@@ -109,7 +155,21 @@ public class ProductServiceImpl implements ProductService {
             ProductModel productModel = productModelFind.get();
             productModel.setId(productDto.getId());
             productModel.setAuthor(getAuthorModelFromService(productDto));
-            productModel.setCategory(productDto.getCategory());
+
+            CategoryDto categoryDto=productDto.getCategory();
+            CategoryModel categoryModel= new CategoryModel();
+
+            categoryModel.setId(categoryDto.getId());
+            categoryModel.setName(categoryDto.getName());
+            CategoryDto parentDtoCategory= categoryDto.getParentCategory();
+            CategoryModel parentModelCategory= new CategoryModel();
+
+            parentModelCategory.setId(parentDtoCategory.getId());
+            parentModelCategory.setName(parentDtoCategory.getName());
+
+            categoryModel.setParentCategory(parentModelCategory);
+
+            productModel.setCategory(categoryModel);
             productModel.setPrice(productDto.getPrice());
             productModel.setProductType(productDto.getProductType());
             productModel.setThumbnail(productDto.getThumbnail());

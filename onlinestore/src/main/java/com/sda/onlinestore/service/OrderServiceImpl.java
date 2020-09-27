@@ -319,6 +319,27 @@ public class OrderServiceImpl implements OrderService {
         Optional<OrderModel> foundOrder = orderRepository.findById(orderDto.getId());
         if (foundOrder.isPresent()) {
             OrderModel orderModel = foundOrder.get();
+
+            List<OrderLineDto> orderLineDtoList = orderDto.getOrderLineDto();
+            List<OrderLineModel> orderLineModelList = new ArrayList<>();
+            OrderLineModel orderLineModel = new OrderLineModel();
+            Double totalCost = 0.0;
+            int quantity = 1;
+            for (OrderLineDto orderLineDto : orderLineDtoList) {
+                ProductDto productDto = orderLineDto.getProductDto();
+                Long id = productDto.getId();
+                Optional<ProductModel> productModelOptional = productRepository.findById(id);
+
+                if (productModelOptional.isPresent()) {
+                    ProductModel productModel = productModelOptional.get();
+                    orderLineModel.setProductModel(productModel);
+                    orderLineModel.setQuantity(quantity);
+                    orderLineModel.setProductPrice(productModel.getPrice());
+                    totalCost += (quantity * productModel.getPrice());
+                }
+                orderLineModelList.add(orderLineModel);
+            }
+
             // Status PENDING - ma pot intoarce in CART pentru modificari
             // status DELIVERED - finalizat
         }

@@ -32,24 +32,25 @@ public class UserAccountServiceImpl implements UserAccountService {
             userAccountDto.setPassword(userAccountModel.getPassword());
             userAccountDto.setCity(userAccountModel.getCity());
 
-            UserAdressModel userAdressModel = new UserAdressModel();
-            UserAddressDto userAddress = userAccountDto.getUserAdress();
-            userAdressModel.setId(userAddress.getId());
-            userAdressModel.setCountry(userAddress.getCountry());
-            userAdressModel.setCity(userAddress.getCity());
-            userAdressModel.setStreet(userAddress.getStreet());
-            userAdressModel.setZipcode(userAddress.getZipcode());
+            UserAdressModel userAdressModel = userAccountModel.getUserAdress();
+            UserAddressDto userAddress = new UserAddressDto();
+            userAddress.setId(userAdressModel.getId());
+            userAddress.setCountry(userAdressModel.getCountry());
+            userAddress.setCity(userAdressModel.getCity());
+            userAddress.setStreet(userAdressModel.getStreet());
+            userAddress.setZipcode(userAdressModel.getZipcode());
 
-            userAccountModel.setUserAdress(userAdressModel);
+            userAccountDto.setUserAdress(userAddress);
 
-            UserAddressDto dtoDeliveryAddress = userAccountDto.getDeliveryAdress();
-            UserAdressModel deliveryAddressModel = new UserAdressModel();
-            deliveryAddressModel.setId(dtoDeliveryAddress.getId());
-            deliveryAddressModel.setCountry(dtoDeliveryAddress.getCountry());
-            deliveryAddressModel.setCity(dtoDeliveryAddress.getCity());
-            deliveryAddressModel.setStreet(dtoDeliveryAddress.getStreet());
-            deliveryAddressModel.setZipcode(dtoDeliveryAddress.getZipcode());
-            userAccountDto.setUserAdress(dtoDeliveryAddress);
+            UserAddressDto dtoDeliveryAddress = new UserAddressDto();
+            UserAdressModel deliveryAddressModel = userAccountModel.getDeliveryAdress();
+            dtoDeliveryAddress.setId(deliveryAddressModel.getId());
+            dtoDeliveryAddress.setCountry(deliveryAddressModel.getCountry());
+            dtoDeliveryAddress.setCity(deliveryAddressModel.getCity());
+            dtoDeliveryAddress.setStreet(deliveryAddressModel.getStreet());
+            dtoDeliveryAddress.setZipcode(deliveryAddressModel.getZipcode());
+
+            userAccountDto.setDeliveryAdress(dtoDeliveryAddress);
 
             userAccountDto.setLogotype(userAccountModel.getLogotype());
             userAccountDto.setRoletype(userAccountModel.getRoletype());
@@ -72,27 +73,28 @@ public class UserAccountServiceImpl implements UserAccountService {
             userAccountDto.setPassword(userAccountModel.getPassword());
             userAccountDto.setCity(userAccountModel.getCity());
 
-            UserAdressModel userAdressModel = new UserAdressModel();
-            UserAddressDto userAddress = userAccountDto.getUserAdress();
-            userAdressModel.setId(userAddress.getId());
-            userAdressModel.setCountry(userAddress.getCountry());
-            userAdressModel.setCity(userAddress.getCity());
-            userAdressModel.setStreet(userAddress.getStreet());
-            userAdressModel.setZipcode(userAddress.getZipcode());
+            UserAdressModel userAdressModel = userAccountModel.getUserAdress();
+            UserAddressDto userAddress = new UserAddressDto();
+            userAddress.setId(userAdressModel.getId());
+            userAddress.setCountry(userAdressModel.getCountry());
+            userAddress.setCity(userAdressModel.getCity());
+            userAddress.setStreet(userAdressModel.getStreet());
+            userAddress.setZipcode(userAdressModel.getZipcode());
 
-            userAccountModel.setUserAdress(userAdressModel);
+            userAccountDto.setUserAdress(userAddress);
 
-            UserAddressDto dtoDeliveryAddress = userAccountDto.getDeliveryAdress();
-            UserAdressModel deliveryAddressModel = new UserAdressModel();
-            deliveryAddressModel.setId(dtoDeliveryAddress.getId());
-            deliveryAddressModel.setCountry(dtoDeliveryAddress.getCountry());
-            deliveryAddressModel.setCity(dtoDeliveryAddress.getCity());
-            deliveryAddressModel.setStreet(dtoDeliveryAddress.getStreet());
-            deliveryAddressModel.setZipcode(dtoDeliveryAddress.getZipcode());
-            userAccountDto.setUserAdress(dtoDeliveryAddress);
+            UserAddressDto dtoDeliveryAddress = new UserAddressDto();
+            UserAdressModel deliveryAddressModel = userAccountModel.getDeliveryAdress();
+            dtoDeliveryAddress.setId(deliveryAddressModel.getId());
+            dtoDeliveryAddress.setCountry(deliveryAddressModel.getCountry());
+            dtoDeliveryAddress.setCity(deliveryAddressModel.getCity());
+            dtoDeliveryAddress.setStreet(deliveryAddressModel.getStreet());
+            dtoDeliveryAddress.setZipcode(deliveryAddressModel.getZipcode());
 
+            userAccountDto.setDeliveryAdress(dtoDeliveryAddress);
+
+            userAccountDto.setLogotype(userAccountModel.getLogotype());
             userAccountDto.setRoletype(userAccountModel.getRoletype());
-            userAccountDto.setLogotype(userAccountDto.getLogotype());
 
             userAccountDtoList.add(userAccountDto);
         }
@@ -123,10 +125,11 @@ public class UserAccountServiceImpl implements UserAccountService {
         deliveryAddressModel.setCity(dtoDeliveryAddress.getCity());
         deliveryAddressModel.setStreet(dtoDeliveryAddress.getStreet());
         deliveryAddressModel.setZipcode(dtoDeliveryAddress.getZipcode());
-        userAccountDto.setUserAdress(dtoDeliveryAddress);
 
-        userAccountModel.setRoletype(userAccountDto.getRoletype());
+        userAccountModel.setDeliveryAdress(deliveryAddressModel);
+
         userAccountModel.setLogotype(userAccountDto.getLogotype());
+        userAccountModel.setRoletype(userAccountDto.getRoletype());
 
         userAccountRepository.save(userAccountModel);
     }
@@ -157,10 +160,13 @@ public class UserAccountServiceImpl implements UserAccountService {
             deliveryAddressModel.setCity(dtoDeliveryAddress.getCity());
             deliveryAddressModel.setStreet(dtoDeliveryAddress.getStreet());
             deliveryAddressModel.setZipcode(dtoDeliveryAddress.getZipcode());
-            userAccountDto.setUserAdress(dtoDeliveryAddress);
 
-            userAccountModel.setRoletype(userAccountDto.getRoletype());
+            userAccountModel.setDeliveryAdress(deliveryAddressModel);
+
             userAccountModel.setLogotype(userAccountDto.getLogotype());
+            userAccountModel.setRoletype(userAccountDto.getRoletype());
+
+            userAccountRepository.save(userAccountModel);
         }
     }
 

@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderModel orderDtoToModel(OrderDto orderDto) {
         OrderModel orderModel = new OrderModel();
-        orderModel.setTotalCost(orderDto.getTotalCost());
+
 
         UserAccountDto userAccountDto = orderDto.getUserAccountDto();
         Long userId = userAccountDto.getId();
@@ -51,6 +51,8 @@ public class OrderServiceImpl implements OrderService {
         List<OrderLineDto> orderLineDtoList = orderDto.getOrderLineDto();
         List<OrderLineModel> orderLineModelList = new ArrayList<>();
         OrderLineModel orderLineModel = new OrderLineModel();
+        Double totalCost = 0.0;
+        int quantity = 1;
         for (OrderLineDto orderLineDto : orderLineDtoList) {
             ProductDto productDto = orderLineDto.getProductDto();
             Long id = productDto.getId();
@@ -59,12 +61,13 @@ public class OrderServiceImpl implements OrderService {
             if (productModelOptional.isPresent()) {
                 ProductModel productModel = productModelOptional.get();
                 orderLineModel.setProductModel(productModel);
-                orderLineModel.setQuantity(1);
+                orderLineModel.setQuantity(quantity);
                 orderLineModel.setProductPrice(productModel.getPrice());
+                totalCost += (quantity * productModel.getPrice());
             }
             orderLineModelList.add(orderLineModel);
         }
-
+        orderModel.setTotalCost(totalCost);
         orderModel.setOrderLineModel(orderLineModelList);
 
         orderModel.setStatus(orderDto.getStatus());

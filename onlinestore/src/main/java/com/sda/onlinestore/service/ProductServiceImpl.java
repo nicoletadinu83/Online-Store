@@ -21,8 +21,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-    // ProductModel productModel;
-    // ProductDto productDto;
 
     @Autowired
     private AuthorRepository authorRepository;
@@ -33,8 +31,10 @@ public class ProductServiceImpl implements ProductService {
     public AuthorDto getAuthorFromService(ProductModel productModel) {
         AuthorModel authorModel = productModel.getAuthor();
         AuthorDto authorDto = new AuthorDto();
-
-        authorDto.setId(authorModel.getId());
+        if (authorModel == null) {
+            return null;
+        }
+//        authorDto.setId(authorModel.getId());
         authorDto.setFirstName(authorModel.getFirstName());
         authorDto.setLastName(authorModel.getLastName());
         return authorDto;
@@ -61,7 +61,6 @@ public class ProductServiceImpl implements ProductService {
             ProductModel productModel = foundProductModel.get();
             ProductDto productDto = new ProductDto();
 
-            // productDto.setCategory(productModel.getCategory());
             //Every Product has a CAtegory Model which include a parentCategory->Category type
             CategoryDto categoryDto = new CategoryDto();
 
@@ -92,8 +91,12 @@ public class ProductServiceImpl implements ProductService {
             productDto.setThumbnail(productModel.getThumbnail());
             productDto.setPrice(productModel.getPrice());
 
+
             CategoryDto categoryDto = new CategoryDto();
-            CategoryModel categoryModel=productModel.getCategory();
+            CategoryModel categoryModel = productModel.getCategory();
+            if (categoryModel == null) {
+                return null;
+            }
             Long idCategory = categoryModel.getId();
             Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(idCategory);
             if (categoryModelOptional.isPresent()) {
@@ -107,15 +110,15 @@ public class ProductServiceImpl implements ProductService {
             CategoryDto parentDtoCategory = new CategoryDto();
             Long idParentCategory = productModel.getCategory().getId();
             Optional<CategoryModel> categoryParentModelOptional = categoryRepository.findById(idCategory);
-            if (categoryParentModelOptional.isPresent()) {
-                CategoryModel categoryModel2 = categoryModelOptional.get();
-                parentDtoCategory.setId(categoryModel2.getId());
-                parentDtoCategory.setName(categoryModel2.getName());
-                categoryDto.setParentCategory(parentDtoCategory);
-            }
-
-            productDto.setCategory(categoryDto);
-            productDto.setAuthor(getAuthorFromService(productModel));
+//            if (categoryParentModelOptional.isPresent()) {
+//                CategoryModel categoryModel2 = categoryModelOptional.get();
+//                parentDtoCategory.setId(categoryModel2.getId());
+//                parentDtoCategory.setName(categoryModel2.getName());
+//                categoryDto.setParentCategory(parentDtoCategory);
+//            }
+//
+//            productDto.setCategory(categoryDto);
+//            productDto.setAuthor(getAuthorFromService(productModel));
 
             productDtoList.add(productDto);
         }

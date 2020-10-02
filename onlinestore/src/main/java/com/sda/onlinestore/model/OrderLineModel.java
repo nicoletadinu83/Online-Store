@@ -9,7 +9,7 @@ public class OrderLineModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
+    @ManyToOne
     private ProductModel productModel;
 
     private int quantity;

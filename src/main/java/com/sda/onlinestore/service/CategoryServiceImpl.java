@@ -96,18 +96,35 @@ public class CategoryServiceImpl implements CategoryService {
     public void addCategory(CategoryDto categoryDto) {
         CategoryModel categoryModel = new CategoryModel();
         categoryModel.setName(categoryDto.getName());
+        CategoryDto parentCategoryDto = categoryDto.getParentCategory();
+        if (parentCategoryDto != null) {
+            Optional<CategoryModel> parentCategoryFound = categoryRepository.findById(parentCategoryDto.getId());
+            if (parentCategoryFound.isPresent()) {
+                CategoryModel parentCategoryModel = parentCategoryFound.get();
+                categoryModel.setParentCategory(parentCategoryModel);
+            }
+        }
 
         categoryRepository.save(categoryModel);
     }
 
     @Override
     public void updateCategory(CategoryDto categoryDto) {
+
         Optional<CategoryModel> foundCategory = categoryRepository.findById(categoryDto.getId());
+
         if (foundCategory.isPresent()) {
             CategoryModel categoryModel = foundCategory.get();
             categoryModel.setName(categoryDto.getName());
-
+            if (categoryDto.getParentCategory() != null) {
+                long id = categoryDto.getParentCategory().getId();
+                if (categoryRepository.findById(id).isPresent()) {
+                    categoryModel.setParentCategory(categoryRepository.findById(id).get());
+                }
+            }
             categoryRepository.save(categoryModel);
         }
+
     }
 }
+

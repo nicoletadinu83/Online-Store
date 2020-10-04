@@ -29,16 +29,22 @@ public class ProductServiceImpl implements ProductService {
     private CategoryRepository categoryRepository;
 
     public AuthorDto getAuthorFromService(ProductModel productModel) {
-        AuthorModel authorModel = productModel.getAuthor();
-        AuthorDto authorDto = new AuthorDto();
-        if (authorModel == null) {
+        if (productModel.getAuthor() == null) {
             return null;
         }
+            AuthorModel authorModel = productModel.getAuthor();
+            AuthorDto authorDto = new AuthorDto();
+            if (authorModel == null) {
+                return null;
+            }
+
 //        authorDto.setId(authorModel.getId());
-        authorDto.setFirstName(authorModel.getFirstName());
-        authorDto.setLastName(authorModel.getLastName());
-        return authorDto;
-    }
+            authorDto.setFirstName(authorModel.getFirstName());
+            authorDto.setLastName(authorModel.getLastName());
+
+            return authorDto;
+
+        }
 
     public AuthorModel getAuthorModelFromService(ProductDto productDto) {
         AuthorDto authorDto = productDto.getAuthor();
@@ -61,8 +67,14 @@ public class ProductServiceImpl implements ProductService {
             ProductModel productModel = foundProductModel.get();
             ProductDto productDto = new ProductDto();
 
+            CategoryModel categoryModel = productModel.getCategory();
+
             //Every Product has a CAtegory Model which include a parentCategory->Category type
             CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(categoryModel.getId());
+            //categoryDto.setParentCategory(categoryModel.getParentCategory());
+            categoryDto.setName(categoryModel.getName());
+            //categoryDto.setSubcategory(categoryModel.getSubcategory());
 
             //  categoryDto.setParentCategory(setParentCategory(ProductModel productModel);
             productDto.setCategory(categoryDto);
@@ -80,6 +92,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> getAllProducts() {
+        System.out.println("Am intrat in metoda getAllProducts()...");
         List<ProductModel> productModelList = productRepository.findAll();
         List<ProductDto> productDtoList = new ArrayList<>();
 
@@ -94,22 +107,20 @@ public class ProductServiceImpl implements ProductService {
 
             CategoryDto categoryDto = new CategoryDto();
             CategoryModel categoryModel = productModel.getCategory();
-            if (categoryModel == null) {
-                return null;
-            }
-            Long idCategory = categoryModel.getId();
-            Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(idCategory);
-            if (categoryModelOptional.isPresent()) {
-                CategoryModel categoryModel1 = categoryModelOptional.get();
+            if (categoryModel != null) {
+                Long idCategory = categoryModel.getId();
+                Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(idCategory);
+                if (categoryModelOptional.isPresent()) {
+                    CategoryModel categoryModel1 = categoryModelOptional.get();
 
-                categoryDto.setId(categoryModel1.getId());
-                categoryDto.setName(categoryModel1.getName());
-                productDto.setCategory(categoryDto);
-            }
+                    categoryDto.setId(categoryModel1.getId());
+                    categoryDto.setName(categoryModel1.getName());
+                    productDto.setCategory(categoryDto);
+                }
 
-            CategoryDto parentDtoCategory = new CategoryDto();
-            Long idParentCategory = productModel.getCategory().getId();
-            Optional<CategoryModel> categoryParentModelOptional = categoryRepository.findById(idCategory);
+                CategoryDto parentDtoCategory = new CategoryDto();
+                Long idParentCategory = productModel.getCategory().getId();
+                Optional<CategoryModel> categoryParentModelOptional = categoryRepository.findById(idCategory);
 //            if (categoryParentModelOptional.isPresent()) {
 //                CategoryModel categoryModel2 = categoryModelOptional.get();
 //                parentDtoCategory.setId(categoryModel2.getId());
@@ -119,10 +130,12 @@ public class ProductServiceImpl implements ProductService {
 //
 //            productDto.setCategory(categoryDto);
 //            productDto.setAuthor(getAuthorFromService(productModel));
+            }
 
             productDtoList.add(productDto);
         }
 
+        System.out.println("productDtoList: " + productDtoList);
         return productDtoList;
     }
 
@@ -137,21 +150,27 @@ public class ProductServiceImpl implements ProductService {
         productModel.setId(productDto.getId());
         //  productModel.setAuthor(getAuthorModelFromService(productDto));
         CategoryDto categoryDto = productDto.getCategory();
-        Long idCategory = categoryDto.getId();
-        Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(idCategory);
-        if (categoryModelOptional.isPresent()) {
-            CategoryModel categoryModel = categoryModelOptional.get();
-            productModel.setCategory(categoryModel);
+        if (categoryDto != null) {
+
+            Long idCategory = categoryDto.getId();
+            Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(idCategory);
+            if (categoryModelOptional.isPresent()) {
+                CategoryModel categoryModel = categoryModelOptional.get();
+                productModel.setCategory(categoryModel);
+            }
+
         }
+
         productModel.setPrice(productDto.getPrice());
         productModel.setProductType(productDto.getProductType());
         productModel.setThumbnail(productDto.getThumbnail());
         productModel.setTitle(productDto.getTitle());
+
         productModel.setAuthor(getAuthorModelFromService(productDto));
 
         productRepository.save(productModel);
-
     }
+
 
     @Override
     public void updateProduct(ProductDto productDto) {

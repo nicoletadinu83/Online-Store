@@ -92,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
             List<OrderLineDto> orderLineDtoList = new ArrayList<>();
             for (OrderLineModel orderLineModel : orderLineModelList) {
                 OrderLineDto orderLineDto = new OrderLineDto();
-                orderLineDto.setId(orderLineModel.getId());
+//                orderLineDto.setId(orderLineModel.getId());
                 orderLineDto.setPrice(orderLineModel.getProductPrice());
                 orderLineDto.setQuantity(orderLineModel.getQuantity());
 

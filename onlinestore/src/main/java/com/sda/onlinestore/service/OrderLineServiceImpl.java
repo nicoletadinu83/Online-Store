@@ -6,8 +6,10 @@ import com.sda.onlinestore.dto.OrderLineDto;
 import com.sda.onlinestore.dto.ProductDto;
 import com.sda.onlinestore.model.CategoryModel;
 import com.sda.onlinestore.model.OrderLineModel;
+import com.sda.onlinestore.model.OrderModel;
 import com.sda.onlinestore.model.ProductModel;
 import com.sda.onlinestore.repository.OrderLineRepository;
+import com.sda.onlinestore.repository.OrderRepository;
 import com.sda.onlinestore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class OrderLineServiceImpl implements OrderLineService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @Override
     public List<OrderLineDto> getOrderLines() {
@@ -72,9 +77,13 @@ public class OrderLineServiceImpl implements OrderLineService {
             orderLineModel.setProductModel(productModel);
             orderLineModel.setQuantity(1);
             orderLineModel.setProductPrice(productModel.getPrice());
+            orderLineModel.setLinePrice((orderLineModel.getProductPrice()*orderLineModel.getQuantity()));
         }
         orderLineRepository.save(orderLineModel);
+        
     }
+
+
 
     @Override
     public void deleteOrderLine(Long id) {

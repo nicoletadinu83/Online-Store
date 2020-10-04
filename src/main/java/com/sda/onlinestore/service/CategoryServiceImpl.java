@@ -181,9 +181,10 @@ public class CategoryServiceImpl implements CategoryService {
                 productDto.setPrice(product.getPrice());
                 productDto.setCategory(product.getCategory());
                 productDto.setAuthor(getAuthorFromService(product));
+
+                productByCategoryDto.add(productDto);
             }
         }
-
         return productByCategoryDto;
     }
 

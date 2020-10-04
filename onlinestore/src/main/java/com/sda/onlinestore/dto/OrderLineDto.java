@@ -6,6 +6,7 @@ public class OrderLineDto {
    // private OrderDto order;
     private int quantity;
     private double price;
+    private double linePrice;
 
     public long getId() {
         return id;
@@ -45,5 +46,13 @@ public class OrderLineDto {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getLinePrice() {
+        return linePrice;
+    }
+
+    public void setLinePrice(double linePrice) {
+        this.linePrice = linePrice;
     }
 }

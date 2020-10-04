@@ -1,6 +1,7 @@
 package com.sda.onlinestore.controller;
 
 import com.sda.onlinestore.dto.CategoryDto;
+import com.sda.onlinestore.dto.ProductDto;
 import com.sda.onlinestore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,12 @@ public class CategoryController {
     public ResponseEntity editCategory(@RequestBody CategoryDto categoryDto) {
         categoryService.updateCategory(categoryDto);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("getProductsByCategory")
+    public ResponseEntity<List<ProductDto>> getProductsByCategory(@RequestBody CategoryDto categoryDto) {
+        List<ProductDto> productsDtoList = categoryService.getProductsByCategory(categoryDto);
+        return new ResponseEntity(productsDtoList, HttpStatus.OK);
     }
 
 }

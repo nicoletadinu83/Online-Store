@@ -34,7 +34,6 @@ public class OrderServiceImpl implements OrderService {
     private OrderModel orderDtoToModel(OrderDto orderDto) {
         OrderModel orderModel = new OrderModel();
 
-
         UserAccountDto userAccountDto = orderDto.getUserAccountDto();
         Long userId = userAccountDto.getId();
         Optional<UserAccountModel> userAccountModelOptional = userAccountRepository.findById(userId);
@@ -50,10 +49,10 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderLineDto> orderLineDtoList = orderDto.getOrderLineDto();
         List<OrderLineModel> orderLineModelList = new ArrayList<>();
-        OrderLineModel orderLineModel = new OrderLineModel();
         Double totalCost = 0.0;
         int quantity = 1;
         for (OrderLineDto orderLineDto : orderLineDtoList) {
+            OrderLineModel orderLineModel = new OrderLineModel();
             ProductDto productDto = orderLineDto.getProductDto();
             Long id = productDto.getId();
             Optional<ProductModel> productModelOptional = productRepository.findById(id);
@@ -74,6 +73,60 @@ public class OrderServiceImpl implements OrderService {
 
         return orderModel;
     }
+
+    /*@Override
+    public void addOrder(OrderDto orderDto) {
+
+        OrderModel orderModel = orderDtoToModel(orderDto);
+
+        orderRepository.save(orderModel);
+    }
+
+    private OrderModel orderDtoToModel(OrderDto orderDto) {
+        OrderModel orderModel = new OrderModel();
+
+
+        UserAccountDto userAccountDto = orderDto.getUserAccountDto();
+        Long userId = userAccountDto.getId();
+        Optional<UserAccountModel> userAccountModelOptional = userAccountRepository.findById(userId);
+
+        if (userAccountModelOptional.isPresent()) {
+            UserAccountModel userAccountModel = userAccountModelOptional.get();
+            orderModel.setUserAccountModel(userAccountModel);
+            orderModel.setDeliveryAddress(userAccountModel.getDeliveryAdress());
+            orderModel.setUserAddress(userAccountModel.getUserAdress());
+        }
+
+        orderModel.setOrderDate(orderDto.getOrderDate());
+
+        List<OrderLineDto> orderLineDtoList = orderDto.getOrderLineDto();
+        List<OrderLineModel> orderLineModelList = new ArrayList<>();
+        Double totalCost = 0.0;
+        int quantity = 1;
+        for (OrderLineDto orderLineDto : orderLineDtoList) {
+            OrderLineModel orderLineModel = new OrderLineModel();
+            ProductDto productDto = orderLineDto.getProductDto();
+            Long id = productDto.getId();
+            Optional<ProductModel> productModelOptional = productRepository.findById(id);
+
+            if (productModelOptional.isPresent()) {
+                ProductModel productModel = productModelOptional.get();
+                orderLineModel.setProductModel(productModel);
+                orderLineModel.setQuantity(quantity);
+                orderLineModel.setProductPrice(productModel.getPrice());
+                totalCost += (quantity * productModel.getPrice());
+            }
+            orderLineModelList.add(orderLineModel);
+        }
+        orderModel.setTotalCost(totalCost);
+        orderModel.setOrderLineModel(orderLineModelList);
+
+        orderModel.setStatus(orderDto.getStatus());
+
+        return orderModel;
+    }*/
+
+
 
 
     @Override
@@ -230,7 +283,7 @@ public class OrderServiceImpl implements OrderService {
                 productDto.setProductType(productModel.getProductType());
 
 
-                AuthorModel authorModel = productModel.getAuthor();
+                /*AuthorModel authorModel = productModel.getAuthor();
                 AuthorDto authorDto = new AuthorDto();
                 authorDto.setId(authorModel.getId());
                 authorDto.setFirstName(authorModel.getFirstName());
@@ -259,7 +312,7 @@ public class OrderServiceImpl implements OrderService {
                 }
                 categoryDto.setSubcategory(subcategoryDtoList);
                 productDto.setCategory(categoryDto);
-                orderLineDto.setProductDto(productDto);
+                orderLineDto.setProductDto(productDto);*/
 
                 orderLineDtoList.add(orderLineDto);
             }
@@ -319,27 +372,6 @@ public class OrderServiceImpl implements OrderService {
         Optional<OrderModel> foundOrder = orderRepository.findById(orderDto.getId());
         if (foundOrder.isPresent()) {
             OrderModel orderModel = foundOrder.get();
-
-            List<OrderLineDto> orderLineDtoList = orderDto.getOrderLineDto();
-            List<OrderLineModel> orderLineModelList = new ArrayList<>();
-            OrderLineModel orderLineModel = new OrderLineModel();
-            Double totalCost = 0.0;
-            int quantity = 1;
-            for (OrderLineDto orderLineDto : orderLineDtoList) {
-                ProductDto productDto = orderLineDto.getProductDto();
-                Long id = productDto.getId();
-                Optional<ProductModel> productModelOptional = productRepository.findById(id);
-
-                if (productModelOptional.isPresent()) {
-                    ProductModel productModel = productModelOptional.get();
-                    orderLineModel.setProductModel(productModel);
-                    orderLineModel.setQuantity(quantity);
-                    orderLineModel.setProductPrice(productModel.getPrice());
-                    totalCost += (quantity * productModel.getPrice());
-                }
-                orderLineModelList.add(orderLineModel);
-            }
-
             // Status PENDING - ma pot intoarce in CART pentru modificari
             // status DELIVERED - finalizat
         }

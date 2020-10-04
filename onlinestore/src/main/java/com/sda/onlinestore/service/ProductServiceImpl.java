@@ -71,13 +71,16 @@ public class ProductServiceImpl implements ProductService {
 
             //Every Product has a CAtegory Model which include a parentCategory->Category type
             CategoryDto categoryDto = new CategoryDto();
-            categoryDto.setId(categoryModel.getId());
-            //categoryDto.setParentCategory(categoryModel.getParentCategory());
-            categoryDto.setName(categoryModel.getName());
-            //categoryDto.setSubcategory(categoryModel.getSubcategory());
+            if(categoryModel!=null) {
+                categoryDto.setId(categoryModel.getId());
+                // categoryDto.setParentCategory(categoryModel.getParentCategory());
 
-            //  categoryDto.setParentCategory(setParentCategory(ProductModel productModel);
-            productDto.setCategory(categoryDto);
+                categoryDto.setName(categoryModel.getName());
+                //categoryDto.setSubcategory(categoryModel.getSubcategory());
+
+                //  categoryDto.setParentCategory(setParentCategory(ProductModel productModel);
+                productDto.setCategory(categoryDto);
+            }
             productDto.setId(productModel.getId());
             productDto.setPrice(productModel.getPrice());
             productDto.setProductType(productModel.getProductType());
@@ -121,6 +124,8 @@ public class ProductServiceImpl implements ProductService {
                 CategoryDto parentDtoCategory = new CategoryDto();
                 Long idParentCategory = productModel.getCategory().getId();
                 Optional<CategoryModel> categoryParentModelOptional = categoryRepository.findById(idCategory);
+//
+//
 //            if (categoryParentModelOptional.isPresent()) {
 //                CategoryModel categoryModel2 = categoryModelOptional.get();
 //                parentDtoCategory.setId(categoryModel2.getId());
@@ -129,7 +134,7 @@ public class ProductServiceImpl implements ProductService {
 //            }
 //
 //            productDto.setCategory(categoryDto);
-//            productDto.setAuthor(getAuthorFromService(productModel));
+            productDto.setAuthor(getAuthorFromService(productModel));
             }
 
             productDtoList.add(productDto);

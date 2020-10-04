@@ -80,7 +80,7 @@ public class OrderLineServiceImpl implements OrderLineService {
             orderLineModel.setLinePrice((orderLineModel.getProductPrice()*orderLineModel.getQuantity()));
         }
         orderLineRepository.save(orderLineModel);
-        
+
     }
 
 
@@ -91,7 +91,7 @@ public class OrderLineServiceImpl implements OrderLineService {
     }
 
     @Override
-    public void updateOrderLineDto(OrderLineDto orderLineDto) {
+    public void updateOrderLine(OrderLineDto orderLineDto) {
 
     }
 }

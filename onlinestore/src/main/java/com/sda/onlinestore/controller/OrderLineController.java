@@ -33,4 +33,10 @@ public class OrderLineController {
         orderLineService.deleteOrderLine(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PutMapping("updateOrderLine")
+    public ResponseEntity updateOrderLine(@RequestBody OrderLineDto orderLineDto) {
+        orderLineService.updateOrderLine(orderLineDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

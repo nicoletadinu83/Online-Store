@@ -16,6 +16,8 @@ public class OrderLineModel {
 
     private double productPrice;
 
+    private double linePrice;
+
     public long getId() {
         return id;
     }
@@ -46,5 +48,13 @@ public class OrderLineModel {
 
     public void setProductPrice(double price) {
         this.productPrice = price;
+    }
+
+    public double getLinePrice() {
+        return linePrice;
+    }
+
+    public void setLinePrice(double linePrice) {
+        this.linePrice = linePrice;
     }
 }

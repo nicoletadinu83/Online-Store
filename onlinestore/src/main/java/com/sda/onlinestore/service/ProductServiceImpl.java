@@ -177,7 +177,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<ProductModel> productModelFind = productRepository.findById(productDto.getId());
         if (productModelFind.isPresent()) {
             ProductModel productModel = productModelFind.get();
-            productModel.setId(productDto.getId());
+//            productModel.setId(productDto.getId());
             productModel.setAuthor(getAuthorModelFromService(productDto));
 
             long idCategory = productDto.getCategory().getId();

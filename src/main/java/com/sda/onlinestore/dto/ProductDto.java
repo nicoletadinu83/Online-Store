@@ -13,6 +13,7 @@ public class ProductDto {
 
     private CategoryModel category;
 
+
     private double price;
 
     private ProductType productType;

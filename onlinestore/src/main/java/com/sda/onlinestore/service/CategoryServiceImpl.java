@@ -139,10 +139,10 @@ public class CategoryServiceImpl implements CategoryService {
     public AuthorModel getAuthorModelFromService(ProductDto productDto){
         AuthorDto authorDto = productDto.getAuthor();
         AuthorModel authorModel = new AuthorModel();
-
+        if (authorModel != null) {
         authorModel.setId(authorDto.getId());
         authorModel.setFirstName(authorDto.getFirstName());
-        authorModel.setLastName(authorDto.getLastName());
+        authorModel.setLastName(authorDto.getLastName());}
         return authorModel;
     }
 
@@ -150,43 +150,57 @@ public class CategoryServiceImpl implements CategoryService {
     public AuthorDto getAuthorFromService(ProductModel productModel){
         AuthorModel authorModel = productModel.getAuthor();
         AuthorDto authorDto = new AuthorDto();
-
+        if(authorModel != null) {
         authorDto.setId(authorModel.getId());
         authorDto.setFirstName(authorModel.getFirstName());
-        authorDto.setLastName(authorModel.getLastName());
+        authorDto.setLastName(authorModel.getLastName());}
         return authorDto;
     }
 
-/*    @Override
-    public List<ProductDto> getProductsByCategory(CategoryDto categoryDto) {
+    @Override
+    public List<ProductDto> getProductsByCategory(long id) {
         List<ProductDto> productByCategoryDto = new ArrayList<>();
-        List<ProductModel> productByCategory = new ArrayList<>();
-        Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(categoryDto.getId());
-        List<ProductModel> allProducts = productRepository.findAll();
-        if (categoryModelOptional.isPresent()) {
-            CategoryModel categoryModel = categoryModelOptional.get();
-            for (ProductModel product : allProducts) {
-                if (product.getCategory().getId() == categoryModel.getId()) {
-                    productByCategory.add(productRepository.findById(product.getId()).get());
+
+        Optional<CategoryModel> categoryModelOptionalToFind = categoryRepository.findById(id);
+        if(categoryModelOptionalToFind.isPresent()) {
+            CategoryModel foundCategoryModel = categoryModelOptionalToFind.get();
+        List<ProductModel> productByCategory = productRepository.findByCategory(foundCategoryModel);
+
+        for (ProductModel productModel : productByCategory) {
+
+            ProductDto productDto = new ProductDto();
+            productDto.setId(productModel.getId());
+            productDto.setTitle(productModel.getTitle());
+            productDto.setProductType(productModel.getProductType());
+            productDto.setThumbnail(productModel.getThumbnail());
+            productDto.setPrice(productModel.getPrice());
+
+
+            CategoryDto categoryDto = new CategoryDto();
+            CategoryModel categoryModel = productModel.getCategory();
+            if (categoryModel != null) {
+                Long idCategory = categoryModel.getId();
+                Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(idCategory);
+                if (categoryModelOptional.isPresent()) {
+                    CategoryModel categoryModel1 = categoryModelOptional.get();
+
+                    categoryDto.setId(categoryModel1.getId());
+                    categoryDto.setName(categoryModel1.getName());
+                    productDto.setCategory(categoryDto);
                 }
+
+                CategoryDto parentDtoCategory = new CategoryDto();
+                Long idParentCategory = productModel.getCategory().getId();
+                Optional<CategoryModel> categoryParentModelOptional = categoryRepository.findById(idCategory);
+
+                productDto.setAuthor(getAuthorFromService(productModel));
             }
 
-            for (ProductModel product : productByCategory) {
-                ProductDto productDto = new ProductDto();
+            productByCategoryDto.add(productDto);
+        }}
 
-                productDto.setId(product.getId());
-                productDto.setTitle(product.getTitle());
-                productDto.setProductType(product.getProductType());
-                productDto.setThumbnail(product.getThumbnail());
-                productDto.setPrice(product.getPrice());
-                productDto.setCategory();
-                productDto.setAuthor(getAuthorFromService(product));
-
-                productByCategoryDto.add(productDto);
-            }
-        }
         return productByCategoryDto;
-    }*/
+    }
 
 
 }

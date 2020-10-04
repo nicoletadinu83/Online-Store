@@ -2,6 +2,7 @@ package com.sda.onlinestore.controller;
 
 import com.sda.onlinestore.dto.CategoryDto;
 import com.sda.onlinestore.dto.ProductDto;
+import com.sda.onlinestore.model.ProductModel;
 import com.sda.onlinestore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,10 +49,9 @@ public class CategoryController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-/*    @GetMapping("getProductsByCategory")
-    public ResponseEntity<List<ProductDto>> getProductsByCategory(@RequestBody CategoryDto categoryDto) {
-        List<ProductDto> productsDtoList = categoryService.getProductsByCategory(categoryDto);
-        return new ResponseEntity(productsDtoList, HttpStatus.OK);
-    }*/
-
+    @GetMapping("getProductsByCategory/{id}")
+    public ResponseEntity<List<ProductDto>> getProducts (@PathVariable Long id) {
+        List<ProductDto> productsList = categoryService.getProductsByCategory(id);
+        return new ResponseEntity(productsList, HttpStatus.OK);
+    }
 }

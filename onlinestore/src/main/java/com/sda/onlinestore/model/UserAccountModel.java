@@ -32,6 +32,16 @@ public class UserAccountModel {
     @Column(name = "roletype")
     private RoleModel roletype;
 
+    @OneToOne
+    private CartModel cart;
+
+    public CartModel getCart() {
+        return cart;
+    }
+
+    public void setCart(CartModel cartModel) {
+        this.cart = cartModel;
+    }
 
     public long getId() {
         return id;

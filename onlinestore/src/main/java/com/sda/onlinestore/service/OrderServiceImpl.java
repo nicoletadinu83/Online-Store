@@ -2,6 +2,7 @@ package com.sda.onlinestore.service;
 
 import com.sda.onlinestore.dto.*;
 import com.sda.onlinestore.model.*;
+import com.sda.onlinestore.repository.CartRepository;
 import com.sda.onlinestore.repository.OrderRepository;
 import com.sda.onlinestore.repository.ProductRepository;
 import com.sda.onlinestore.repository.UserAccountRepository;
@@ -22,6 +23,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Override
     public void addOrder(OrderDto orderDto) {
@@ -72,6 +76,32 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setStatus(orderDto.getStatus());
 
         return orderModel;
+    }
+
+    @Override
+    public void addToCart(Long userId, Long productId) {
+        Optional<UserAccountModel> optionalUserAccountModel = userAccountRepository.findById(userId);
+        if (optionalUserAccountModel.isPresent()) {
+            UserAccountModel userAccountModel = optionalUserAccountModel.get();
+            CartModel cartModel = userAccountModel.getCart();
+            if (cartModel == null) {
+                cartModel = new CartModel();
+                userAccountModel.setCart(cartModel);
+            }
+
+            OrderLineModel orderLineModel = new OrderLineModel();
+            Optional<ProductModel> productModelOptional = productRepository.findById(productId);
+
+            if (productModelOptional.isPresent()) {
+                ProductModel productModel = productModelOptional.get();
+                orderLineModel.setProductModel(productModel);
+                orderLineModel.setQuantity(1);
+                orderLineModel.setProductPrice(productModel.getPrice());
+            }
+            cartModel.getOrderLineModelList().add(orderLineModel);
+            cartRepository.save(cartModel);
+            userAccountRepository.save(userAccountModel);
+        }
     }
 
     /*@Override
@@ -125,8 +155,6 @@ public class OrderServiceImpl implements OrderService {
 
         return orderModel;
     }*/
-
-
 
 
     @Override
@@ -364,7 +392,6 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
-
 
 
     @Override

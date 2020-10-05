@@ -45,4 +45,10 @@ public class OrderController {
         orderService.updateOrder(orderDto);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PutMapping("addToCart/{userId}/{productId}")
+    public ResponseEntity addToCart(@PathVariable("userId") Long userId, @PathVariable("productId") Long productId) {
+        orderService.addToCart(userId, productId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

@@ -15,4 +15,6 @@ public interface OrderService {
     void addOrder(OrderDto orderDto);
 
     void updateOrder(OrderDto orderDto);
+
+    void addToCart(Long userId, Long productId);
 }

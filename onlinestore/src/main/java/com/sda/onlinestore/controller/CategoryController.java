@@ -52,6 +52,7 @@ public class CategoryController {
     @GetMapping("getProductsByCategory/{id}")
     public ResponseEntity<List<ProductDto>> getProducts (@PathVariable Long id) {
         List<ProductDto> productsList = categoryService.getProductsByCategory(id);
+        System.out.println(productsList);
         return new ResponseEntity(productsList, HttpStatus.OK);
     }
 }

@@ -1,5 +1,7 @@
 package com.sda.onlinestore.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ public class CategoryModel {
     private String name;
 
     @OneToMany (mappedBy = "parentCategory")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<CategoryModel> subcategory= new ArrayList<>();
 
     @ManyToOne

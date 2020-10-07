@@ -136,24 +136,26 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public AuthorModel getAuthorModelFromService(ProductDto productDto){
+    public AuthorModel getAuthorModelFromService(ProductDto productDto) {
         AuthorDto authorDto = productDto.getAuthor();
         AuthorModel authorModel = new AuthorModel();
         if (authorModel != null) {
-        authorModel.setId(authorDto.getId());
-        authorModel.setFirstName(authorDto.getFirstName());
-        authorModel.setLastName(authorDto.getLastName());}
+            authorModel.setId(authorDto.getId());
+            authorModel.setFirstName(authorDto.getFirstName());
+            authorModel.setLastName(authorDto.getLastName());
+        }
         return authorModel;
     }
 
     @Override
-    public AuthorDto getAuthorFromService(ProductModel productModel){
+    public AuthorDto getAuthorFromService(ProductModel productModel) {
         AuthorModel authorModel = productModel.getAuthor();
         AuthorDto authorDto = new AuthorDto();
-        if(authorModel != null) {
-        authorDto.setId(authorModel.getId());
-        authorDto.setFirstName(authorModel.getFirstName());
-        authorDto.setLastName(authorModel.getLastName());}
+        if (authorModel != null) {
+            authorDto.setId(authorModel.getId());
+            authorDto.setFirstName(authorModel.getFirstName());
+            authorDto.setLastName(authorModel.getLastName());
+        }
         return authorDto;
     }
 
@@ -162,44 +164,44 @@ public class CategoryServiceImpl implements CategoryService {
         List<ProductDto> productByCategoryDto = new ArrayList<>();
 
         Optional<CategoryModel> categoryModelOptionalToFind = categoryRepository.findById(id);
-        if(categoryModelOptionalToFind.isPresent()) {
+        if (categoryModelOptionalToFind.isPresent()) {
             CategoryModel foundCategoryModel = categoryModelOptionalToFind.get();
-        List<ProductModel> productByCategory = productRepository.findByCategory(foundCategoryModel);
+            List<ProductModel> productByCategory = productRepository.findByCategory(foundCategoryModel);
 
-        for (ProductModel productModel : productByCategory) {
+            for (ProductModel productModel : productByCategory) {
 
-            ProductDto productDto = new ProductDto();
-            productDto.setId(productModel.getId());
-            productDto.setTitle(productModel.getTitle());
-            productDto.setProductType(productModel.getProductType());
-            productDto.setThumbnail(productModel.getThumbnail());
-            productDto.setPrice(productModel.getPrice());
+                ProductDto productDto = new ProductDto();
 
+                productDto.setId(productModel.getId());
+                productDto.setTitle(productModel.getTitle());
+                productDto.setProductType(productModel.getProductType());
+                productDto.setThumbnail(productModel.getThumbnail());
+                productDto.setPrice(productModel.getPrice());
+                productDto.setAuthor(getAuthorFromService(productModel));
 
-            CategoryDto categoryDto = new CategoryDto();
-            CategoryModel categoryModel = productModel.getCategory();
-            if (categoryModel != null) {
-                Long idCategory = categoryModel.getId();
-                Optional<CategoryModel> categoryModelOptional = categoryRepository.findById(idCategory);
-                if (categoryModelOptional.isPresent()) {
-                    CategoryModel categoryModel1 = categoryModelOptional.get();
+                CategoryDto categoryDto = new CategoryDto();
+                CategoryModel categoryModel = productModel.getCategory();
 
-                    categoryDto.setId(categoryModel1.getId());
-                    categoryDto.setName(categoryModel1.getName());
+                if (categoryModel != null) {
+
+                    categoryDto.setId(categoryModel.getId());
+                    categoryDto.setName(categoryModel.getName());
+
+                    CategoryDto parentCategoryDto = new CategoryDto();
+                    parentCategoryDto.setId(categoryModel.getParentCategory().getId());
+                    parentCategoryDto.setName(categoryModel.getParentCategory().getName());
+                    categoryDto.setParentCategory(parentCategoryDto);
+
                     productDto.setCategory(categoryDto);
                 }
-
-                CategoryDto parentDtoCategory = new CategoryDto();
-                Long idParentCategory = productModel.getCategory().getId();
-                Optional<CategoryModel> categoryParentModelOptional = categoryRepository.findById(idCategory);
-
-                productDto.setAuthor(getAuthorFromService(productModel));
+                productByCategoryDto.add(productDto);
             }
-
-            productByCategoryDto.add(productDto);
-        }}
-
-        return productByCategoryDto;
+        }
+        if (productByCategoryDto.isEmpty()) {
+            return null;
+        } else {
+            return productByCategoryDto;
+        }
     }
 
 
